@@ -1,4 +1,6 @@
 const personID = "1062193446&quot"
+
+console.log("This is a popup!")
 function test() {
     const url = "https://api.lix-it.com/v1/person?profile_link=https://linkedin.com/in/alfie-lambert";
     const lixApiKey = "7qWq0z7MfPLOfHQCI02ihqrPKg5rhAdL6L3ucm26OFCCgL0PN76EIVCr63cE"
