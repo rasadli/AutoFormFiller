@@ -7,5 +7,10 @@
     "action": {
       "default_popup": "hello.html",
       "default_icon": "hello_extensions.png"
+        {
+            "16": "icons/icon16.png",
+            "48": "icons/icon48.png",
+            "128": "icons/icon128.png"
+        }
     }
   }
