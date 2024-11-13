@@ -3,27 +3,21 @@
   "name": "Auto Form Filler Extensions",
   "description": "Base Level Extension",
   "version": "1.0",
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "jquery-2.2.0.min.js",
-        "content.js"
-      ]
-    }
-  ],
-  "browser_action": {
-    "default_icon": "icon.png"
-  },
-  "background": {
-    "scripts": [
-      "background.js"
-    ]
-  },
   "action": {
     "default_popup": "index.html",
-    "default_icon": "main_logo.png"
+    "default_icon": "assets/images/main_logo.png"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["assets/js/content.js"]
+    }
+  ],
+  "permissions": ["tabs", "activeTab", "scripting"],
+  "icons": {
+    "16": "assets/images/main_logo.png",
+    "32": "assets/images/main_logo.png",
+    "48": "assets/images/main_logo.png",
+    "128": "assets/images/main_logo.png"
   }
 }
