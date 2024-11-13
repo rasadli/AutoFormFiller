@@ -13,7 +13,15 @@
       "js": ["assets/js/content.js"]
     }
   ],
-  "permissions": ["tabs", "activeTab", "scripting"],
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "assets/js/background.js"
+  },
   "icons": {
     "16": "assets/images/main_logo.png",
     "32": "assets/images/main_logo.png",
