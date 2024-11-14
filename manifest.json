@@ -1,4 +1,4 @@
-
+{
   "manifest_version": 3,
   "name": "Auto Form Filler Extensions",
   "description": "Base Level Extension",
@@ -28,3 +28,4 @@
     "48": "assets/images/main_logo.png",
     "128": "assets/images/main_logo.png"
   }
+}
