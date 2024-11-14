@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auto Form Filler</title>
+    <link rel="icon" href="assets/images/main_logo.png" type="image/svg+xml">
+
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- Add Font CSS -->
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <!-- Add Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+    <style>
+        html {
+            width: 700px;
+            height: 500px;
+            /* padding: 15px; */
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id="autoFillInput" placeholder="Enter text to fill">
+    <button id="fillFormButton">Fill Form</button>
+
+    
+    <div class="extension-container">
+        <h1>Auto Form Filler</h1>
+
+        <!-- Profile Selection Section -->
+        <div class="mb-4">
+            <h5>Profile Management</h5>
+            <p>Select or create a profile for job applications.</p>
+            <button class="btn btn-primary btn-sm mb-2">Create New Profile</button>
+            <div class="form-group">
+                <label for="profileSelect" class="form-label">Choose Profile:</label>
+                <select id="profileSelect" class="form-select">
+                    <option>Default Profile</option>
+                    <option>Software Engineer</option>
+                    <option>Project Manager</option>
+                </select>
+            </div>
+            <input type="text" id="newProfileName" class="form-control mb-2" placeholder="Enter new profile name">
+            <button id="addProfileButton" class="btn btn-primary btn-sm">Create New Profile</button>
+            <button id="deleteProfileButton" class="btn btn-danger btn-sm">Delete Profile</button>
+        </div>
+
+        <!-- Customizable Data Fields Section -->
+        <div class="mb-4">
+            <h5>Data Fields</h5>
+            <p>Add or edit information to be used for form filling.</p>
+            <button class="btn btn-secondary btn-sm mb-2">Edit LinkedIn Data</button>
+            <button class="btn btn-secondary btn-sm mb-2">Add Custom Field</button>
+            <div>
+                <p><strong>Name:</strong> John Doe</p>
+                <p><strong>Experience:</strong> 5 years</p>
+                <p><strong>Skills:</strong> JavaScript, HTML, CSS</p>
+            </div>
+
+            <!-- Data fields added -->
+            <div>
+                <input type="text" id="fullNameInput" placeholder="Full Name" class="form-control mb-2">
+                <input type="email" id="emailInput" placeholder="Email Address" class="form-control mb-2">
+                <input type="tel" id="phoneInput" placeholder="Phone Number" class="form-control mb-2">
+                <button id="fillFormButton" class="btn btn-primary">Save & Fill Form</button>
+            </div>
+        </div>
+
+        <!-- Form Field Mapping Section -->
+        <div class="mb-4">
+            <h5>Form Field Mapping</h5>
+            <p>Map LinkedIn data fields to application form fields.</p>
+            <button class="btn btn-outline-primary btn-sm">Configure Mapping</button>
+        </div>
+
+        <!-- Cover Letter Generation Section -->
+        <div class="mb-4">
+            <h5>Auto Cover Letter</h5>
+            <p>Generate a tailored cover letter for the job application.</p>
+            <button class="btn btn-outline-secondary btn-sm mb-2">Generate Cover Letter</button>
+            <textarea class="form-control" rows="3" placeholder="Cover letter will appear here..."></textarea>
+        </div>
+
+        <!-- Job Application Tracking Section -->
+        <div class="mb-4">
+            <h5>Application Tracking</h5>
+            <p>Track your job applications and view their statuses.</p>
+            <button class="btn btn-outline-primary btn-sm mb-2">View Dashboard</button>
+            <table class="table table-bordered table-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th>№</th>
+                        <th>Company</th>
+                        <th>Job Title</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>Company A</td>
+                        <td>Software Engineer</td>
+                        <td>11/10/2024</td>
+                        <td>Applied</td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>Company B</td>
+                        <td>Project Manager</td>
+                        <td>11/08/2024</td>
+                        <td>Interview</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Data Transfer Section -->
+        <div>
+            <h5>Data Transfer</h5>
+            <p>Export or import your data for backup or transfer.</p>
+            <button class="btn btn-outline-secondary btn-sm">Export Data</button>
+            <button class="btn btn-outline-secondary btn-sm">Import Data</button>
+        </div>
+
+    </div>
+
+    <!-- Add jQuery -->
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <!-- Add Bootstrap JS -->
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <!-- Add APP JS -->
+    <script src="/assets/js/app.js"></script>
+</body>
+
+</html>
