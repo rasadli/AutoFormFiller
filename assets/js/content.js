@@ -1,5 +1,4 @@
-
-console.log("Content script is running!");
+//console.log("Content script is running!");
 // chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 //   if (request.action == "fillForm") {
 //     const data = request.data;
@@ -15,19 +14,45 @@ console.log("Content script is running!");
 //   }
 // });
 
+//const button = document.querySelector('button[type="submit"]');
 
-const button = document.querySelector('button[type="submit"]');
+// if (button) {
+//   button.addEventListener('click', function (event) {
+//     event.preventDefault(); // Prevent default button behavior
 
-if (button) {
-  button.addEventListener('click', function (event) {
-    event.preventDefault(); // Prevent default button behavior
+//     // Get the data (replace with your actual data)
+//     const autoFilledData = 'Some value you want to store';
 
-    // Get the data (replace with your actual data)
-    const autoFilledData = 'Some value you want to store';
+//     // Send message to background script with the data
+//     chrome.runtime.sendMessage({ type: 'buttonClicked', data: autoFilledData });
+//   });
+// }
 
-    // Send message to background script with the data
-    chrome.runtime.sendMessage({ type: 'buttonClicked', data: autoFilledData });
-  });
-}
+console.log("Content script is running!");
 
 
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action == "fillForm") {
+    const data = request.data;
+    console.log("Data received for form filling:", data);
+
+    // Define selectors based on the Excel file's data
+    const fieldSelectors = {
+      fullName: ["input[name='fullName']", "input[id='name']"],
+      email: ["input[name='email']", "input[id='email']"],
+      phone: ["input[name='phone']", "input[id='phone']"]
+      // Add other fields as needed
+    };
+
+    // Fill form fields based on selectors
+    Object.keys(fieldSelectors).forEach(field => {
+      fieldSelectors[field].forEach(selector => {
+        const input = document.querySelector(selector);
+        if (input && data[field]) {
+          input.value = data[field];
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      });
+    });
+  }
+});
