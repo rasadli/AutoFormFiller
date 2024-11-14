@@ -31,6 +31,7 @@ document.getElementById("fillFormButton").addEventListener("click", () => {
     phone: document.getElementById("phoneInput").value
     // Add other fields as needed
   };
+  
 
     // Profile Switching Code (Newly Added)
     const selectedProfile = document.getElementById("profileSelect").value; // Get selected profile
