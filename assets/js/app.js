@@ -31,6 +31,18 @@ document.getElementById("fillFormButton").addEventListener("click", () => {
     phone: document.getElementById("phoneInput").value
     // Add other fields as needed
   };
+  
+  // Profile Switching Code (Newly Added)
+    const selectedProfile = document.getElementById("profileSelect").value; // Get selected profile
+    if (selectedProfile) {
+      chrome.storage.local.get("profiles", (result) => {
+        const profiles = result.profiles || {};
+        profiles[selectedProfile] = inputData; // Save data to the selected profile
+        chrome.storage.local.set({ profiles }, () => {
+          console.log("Data saved for profile:", selectedProfile);
+        });
+      });
+    }
 
   // Save data to Chrome storage
   chrome.storage.local.set({ autoFilledData: inputData }, () => {
