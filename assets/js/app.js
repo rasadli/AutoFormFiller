@@ -1,25 +1,3 @@
-// // document.getElementById("fillFormButton").addEventListener("click", () => {
-// //   const inputData = document.getElementById("autoFillInput").value;
-
-// //   // Send a message to the content script with the input data
-// //   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-// //     chrome.tabs.sendMessage(tabs[0].id, { action: "fillForm", data: inputData });
-// //   });
-// // });
-
-// document.addEventListener('DOMContentLoaded', function () {
-//   chrome.storage.local.get('autoFilledData', function (result) {
-//     const storedValue = result.autoFilledData;
-
-//     if (storedValue) {
-//       document.getElementById('autoFillInput').value = storedValue;
-//     } else {
-//       console.log('No data found in chrome.storage');
-//     }
-//   });
-// });
-
-
 const defaultFields = [
   { label: "Full Name", type: "text", id: "full-name" },
   { label: "First Name", type: "text", id: "first-name" },
@@ -40,6 +18,8 @@ const defaultFields = [
 const removedFields = [];
 const jobApplicationForm = document.getElementById('job-application-form');
 const removedFieldsSelect = document.getElementById('removed-fields');
+const profiles = {};
+const profileSelect = document.getElementById('profile-select');
 
 // Function to render a field
 function renderField(field) {
@@ -69,7 +49,7 @@ function renderField(field) {
       if (field.accept) input.accept = field.accept;
   }
   input.className = 'form-control';
-  input.id = field.id;
+  input.name = field.id;
 
   // Create remove button
   const deleteBtn = document.createElement('button');
@@ -131,201 +111,86 @@ function addCustomField() {
   }
 }
 
-// Initial render of default fields
-defaultFields.forEach(field => renderField(field));
+// Function to load profiles from Chrome Storage
+function loadProfilesFromStorage() {
+  chrome.storage.local.get("profiles", (result) => {
+      if (result.profiles) {
+          Object.assign(profiles, result.profiles);
+          populateProfileSelect();
+      }
+  });
+}
 
-// Event listeners
-document.getElementById('readd-field-btn').addEventListener('click', reAddField);
-document.getElementById('add-custom-field-btn').addEventListener('click', addCustomField);
+// Function to save profiles to Chrome Storage
+function saveProfilesToStorage() {
+  chrome.storage.local.set({ profiles });
+}
 
+// Function to populate profile dropdown
+function populateProfileSelect() {
+  profileSelect.innerHTML = `<option value="0" disabled selected>Select a profile</option>`;
+  for (const profileName in profiles) {
+      const option = document.createElement('option');
+      option.value = profileName;
+      option.textContent = profileName;
+      profileSelect.appendChild(option);
+  }
+}
 
-chrome.storage.local.get("LinkedInData", (result) => {
-  console.log(result.Link)
-});
+// Function to load profile data into form fields
+function loadProfileData(profileData) {
+  for (const key in profileData) {
+      const input = document.querySelector(`[name="${key}"]`);
+      if (input) {
+          input.value = profileData[key] || "";
+      }
+  }
+}
 
-chrome.storage.onChanged.addListener((changes, areaName) => {
-  console.log('yesss')
-  // Check if LinkedInData has changed in the local storage
-  if (areaName === "local" && changes.LinkedInData) {
-    const updatedData = changes.LinkedInData.newValue;
-    if (updatedData) {
-      // Update the DOM with the new data
-      document.getElementById("first-name").value = updatedData.name || "N/A";
-      document.getElementById("last-name").value = updatedData.surname || "N/A";
-      document.getElementById("city").value = updatedData.location || "N/A";
-      // If needed, you can also update other elements
-      // document.getElementById("profile-headline").innerText = updatedData.headline || "N/A";
-      // document.getElementById("profile-location").innerText = updatedData.location || "N/A";
-    }
+// Event listener for profile selection change
+profileSelect.addEventListener('change', () => {
+  const selectedProfile = profileSelect.value;
+  if (selectedProfile !== "0" && profiles[selectedProfile]) {
+      loadProfileData(profiles[selectedProfile].data);
   }
 });
 
-
-
-document.getElementById("save_data").addEventListener("submit", function(event) {
-  event.preventDefault();
-
-  const formData = new FormData(event.target); 
-  const dataObject = {};
-
-
-  formData.forEach((value, key) => {
-    dataObject[key] = value;
-  });
-
-  console.log("Form Data:", dataObject);
-
+// Add a new profile
+document.getElementById('add-profile-btn').addEventListener('click', () => {
+  const profileName = prompt("Enter profile name:");
+  if (profileName && !profiles[profileName]) {
+      profiles[profileName] = { data: {} };
+      saveProfilesToStorage();
+      populateProfileSelect();
+      alert(`Profile "${profileName}" created!`);
+  } else {
+      alert("Profile name is required or already exists.");
+  }
 });
 
+// Form submission
+document.getElementById("job-application-form").addEventListener("submit", function (event) {
+  const selectedProfile = profileSelect.value;
+  if (selectedProfile !== "0") {
+      event.preventDefault();
+      const formData = new FormData(event.target);
+      const dataObject = {};
+      formData.forEach((value, key) => {
+          dataObject[key] = value;
+      });
+      profiles[selectedProfile].data = dataObject;
+      saveProfilesToStorage();
+      alert(`Data saved for profile "${selectedProfile}"!`);
+  } else {
+      alert("Please choose or create a profile.");
+  }
+});
 
+// Initial render of default fields
+defaultFields.forEach(field => renderField(field));
 
+// Load profiles and initialize form on page load
+document.addEventListener('DOMContentLoaded', () => {
+  loadProfilesFromStorage();
+});
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// document.getElementById("fillFormButton").addEventListener("click", () => {
-//   const inputData = {
-//     fullName: document.getElementById("fullNameInput").value,
-//     email: document.getElementById("emailInput").value,
-//     phone: document.getElementById("phoneInput").value
-//     // Add other fields as needed
-//   };
-  
-
-//     // Profile Switching Code (Newly Added)
-//     const selectedProfile = document.getElementById("profileSelect").value; // Get selected profile
-//     if (selectedProfile) {
-//       chrome.storage.local.get("profiles", (result) => {
-//         const profiles = result.profiles || {};
-//         profiles[selectedProfile] = inputData; // Save data to the selected profile
-//         chrome.storage.local.set({ profiles }, () => {
-//           console.log("Data saved for profile:", selectedProfile);
-//         });
-//       });
-//     }
-
-//   // Save data to Chrome storage
-//   chrome.storage.local.set({ autoFilledData: inputData }, () => {
-//     console.log("Data saved:", inputData);
-//   });
-
-//   // Send a message to the content script with the input data
-//   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-//     chrome.tabs.sendMessage(tabs[0].id, { action: "fillForm", data: inputData });
-//   });
-// });
-
-// document.addEventListener('DOMContentLoaded', function () {
-//   chrome.storage.local.get('autoFilledData', function (result) {
-//     const storedData = result.autoFilledData;
-
-//     if (storedData) {
-//       document.getElementById('fullNameInput').value = storedData.fullName || "";
-//       document.getElementById('emailInput').value = storedData.email || "";
-//       document.getElementById('phoneInput').value = storedData.phone || "";
-//       // Populate other fields as needed
-//     } else {
-//       console.log('No data found in chrome.storage');
-//     }
-//   });
-
-//   // Profile Switching Code (Newly Added)
-//   loadProfileOptions();
-//   loadCurrentProfileData();
-// });
-
-// // Profile Switching Functions (Newly Added)
-
-// // Elements for profile management
-// const profileSelect = document.getElementById("profileSelect");
-// const newProfileNameInput = document.getElementById("newProfileName");
-
-// // Load profile options into dropdown
-// function loadProfileOptions() {
-//   chrome.storage.local.get("profiles", (result) => {
-//     const profiles = result.profiles || {};
-//     profileSelect.innerHTML = `
-//       <option>Default Profile</option>
-//       <option>Software Engineer</option>
-//       <option>Project Manager</option>
-//     `; // Predefined options
-//     for (const profileName in profiles) {
-//       const option = document.createElement("option");
-//       option.value = profileName;
-//       option.textContent = profileName;
-//       profileSelect.appendChild(option);
-//     }
-//   });
-// }
-
-// // Load data for the selected profile
-// function loadCurrentProfileData() {
-//   const selectedProfile = profileSelect.value;
-//   if (!selectedProfile) return;
-
-//   chrome.storage.local.get("profiles", (result) => {
-//     const profiles = result.profiles || {};
-//     const profileData = profiles[selectedProfile] || {};
-
-//     // Populate form fields with the selected profile’s data
-//     document.getElementById("fullNameInput").value = profileData.fullName || "";
-//     document.getElementById("emailInput").value = profileData.email || "";
-//     document.getElementById("phoneInput").value = profileData.phone || "";
-//   });
-// }
-
-// // Add a new profile
-// document.getElementById("addProfileButton").addEventListener("click", () => {
-//   const profileName = newProfileNameInput.value.trim();
-//   if (!profileName) return;
-
-//   chrome.storage.local.get("profiles", (result) => {
-//     const profiles = result.profiles || {};
-//     if (!profiles[profileName]) {
-//       profiles[profileName] = {}; // Initialize empty profile
-//       chrome.storage.local.set({ profiles }, loadProfileOptions);
-//       newProfileNameInput.value = ""; // Clear input
-//     } else {
-//       alert("Profile name already exists.");
-//     }
-//   });
-// });
-
-// // Delete the selected profile
-// document.getElementById("deleteProfileButton").addEventListener("click", () => {
-//   const selectedProfile = profileSelect.value;
-//   chrome.storage.local.get("profiles", (result) => {
-//     const profiles = result.profiles || {};
-//     if (profiles[selectedProfile]) {
-//       delete profiles[selectedProfile];
-//       chrome.storage.local.set({ profiles }, loadProfileOptions);
-
-//       // Clear form fields after deleting profile
-//       document.getElementById("fullNameInput").value = "";
-//       document.getElementById("emailInput").value = "";
-//       document.getElementById("phoneInput").value = "";
-//     }
-//   });
-// });
