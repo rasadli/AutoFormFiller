@@ -29,30 +29,114 @@
 // }
 
 console.log("Content script is running!");
+console.log(window.location.href);
 
+if (window.location.href.includes("linkedin.com/in")) {
+  console.log("testLinkediun");
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action == "fillForm") {
-    const data = request.data;
-    console.log("Data received for form filling:", data);
+  // Create the button
+  const grabDataButton = document.createElement("button");
+  grabDataButton.textContent = "Grab LinkedIn Data";
+  grabDataButton.style.position = "fixed";
+  grabDataButton.style.bottom = "20px";
+  grabDataButton.style.right = "20px";
+  grabDataButton.style.zIndex = "1000";
+  grabDataButton.style.padding = "10px 15px";
+  grabDataButton.style.backgroundColor = "#0073b1";
+  grabDataButton.style.color = "#ffffff";
+  grabDataButton.style.border = "none";
+  grabDataButton.style.borderRadius = "5px";
+  grabDataButton.style.cursor = "pointer";
 
-    // Define selectors based on the Excel file's data
-    const fieldSelectors = {
-      fullName: ["input[name='fullName']", "input[id='name']"],
-      email: ["input[name='email']", "input[id='email']"],
-      phone: ["input[name='phone']", "input[id='phone']"]
-      // Add other fields as needed
-    };
+  document.body.appendChild(grabDataButton);
 
-    // Fill form fields based on selectors
-    Object.keys(fieldSelectors).forEach(field => {
-      fieldSelectors[field].forEach(selector => {
-        const input = document.querySelector(selector);
-        if (input && data[field]) {
-          input.value = data[field];
-          input.dispatchEvent(new Event('input', { bubbles: true }));
+  // Event listener for button click
+  grabDataButton.addEventListener("click", () => {
+    // Example of grabbing data from a LinkedIn profile
+    let profileData = {};
+
+    // Assume we're on a LinkedIn profile page and start extracting data
+    profileData.name = (document.querySelector(".text-heading-xlarge").innerText).split(" ")[0];
+    profileData.surname = (document.querySelector(".text-heading-xlarge").innerText).split(" ")[1];
+    profileData.headline = document.querySelector(".text-body-medium").innerText;
+    profileData.location = document.querySelector(".text-body-small.inline.t-black--light.break-words").innerText;
+
+    // If you need to extract more specific data, add selectors here
+    // profileData.experience = ... 
+    console.log(profileData)
+
+    try {
+      chrome.runtime.sendMessage({ action: "sendData", data: profileData }, (response) => {
+        if (chrome.runtime.lastError) {
+          console.error("Error sending message:", chrome.runtime.lastError.message);
+        } else {
+          console.log("Data sent to extension:", response);
         }
       });
-    });
-  }
-});
+    } catch (error) {
+      console.error("Error in sending message:", error);
+    }    
+
+  });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+//   if (request.action == "fillForm") {
+//     const data = request.data;
+//     console.log("Data received for form filling:", data);
+
+//     // Define selectors based on the Excel file's data
+//     const fieldSelectors = {
+//       fullName: ["input[name='fullName']", "input[id='name']"],
+//       email: ["input[name='email']", "input[id='email']"],
+//       phone: ["input[name='phone']", "input[id='phone']"]
+//       // Add other fields as needed
+//     };
+
+//     // Fill form fields based on selectors
+//     Object.keys(fieldSelectors).forEach(field => {
+//       fieldSelectors[field].forEach(selector => {
+//         const input = document.querySelector(selector);
+//         if (input && data[field]) {
+//           input.value = data[field];
+//           input.dispatchEvent(new Event('input', { bubbles: true }));
+//         }
+//       });
+//     });
+//   }
+// });

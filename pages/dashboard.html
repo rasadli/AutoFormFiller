@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Dashboard</title>
+    <link rel="icon" href="assets/images/main_logo.png" type="image/svg+xml">
+
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
+    <!-- Add Font CSS -->
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <!-- Add Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+
+<body>
+
+    <div class="container my-4">
+        <!-- <h2>Job Application Tool</h2> -->
+
+
+        <div class="btn-toolbar mb-4" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="w-100 btn-group mr-2 d-flex justify-content-between" role="group">
+                <a href="/index.html" id="main-btn" class="btn btn-success">User Info</a>
+                <a href="/pages/dashboard.html" id="dashboard-btn" class="btn btn-primary">Applications</a>
+                <!-- <button id="extract-btn" class="btn btn-secondary">Extract LinkedIn</button> -->
+                <a id="export-btn" class="btn btn-info">Export</a>
+                <a id="import-btn" class="btn btn-warning">Import</a>
+            </div>
+        </div>
+
+        <!-- Dashboard Section -->
+        <div id="dashboard-section">
+            <h3>Application Dashboard</h3>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Company</th>
+                        <th>Job Title</th>
+                        <th>Date Applied</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody id="applications-table-body">
+                    <!-- Dynamic rows for applications -->
+                </tbody>
+            </table>
+        </div>
+
+    </div>
+    
+    <!-- Add jQuery -->
+    <script src="/assets/js/jquery-3.7.1.min.js"></script>
+    <!-- Add Bootstrap JS -->
+    <script src="/assets/js/bootstrap.min.js"></script>
+    <!-- Add APP JS -->
+    <script src="/assets/js/dashboard.js"></script>
+    <!-- <script>
+        // JavaScript to handle button interactions and display sections
+        // document.getElementById('dashboard-btn').addEventListener('click', () => {
+        //     document.getElementById('dashboard-section').style.display = 'block';
+        //     document.getElementById('job-application-form-section').style.display = 'none';
+        // });
+
+        // document.getElementById('extract-btn').addEventListener('click', () => {
+        //     alert('Extracting data from LinkedIn...'); // Placeholder for LinkedIn data extraction
+        // });
+
+        // document.getElementById('export-btn').addEventListener('click', () => {
+        //     alert('Exporting data...'); // Placeholder for export functionality
+        // });
+
+        // document.getElementById('import-btn').addEventListener('click', () => {
+        //     alert('Importing data...'); // Placeholder for import functionality
+        // });
+
+        // document.getElementById('add-custom-btn').addEventListener('click', () => {
+        //     const customBtnName = prompt("Enter the name for the new button:");
+        //     if (customBtnName) {
+        //         const newButton = document.createElement('button');
+        //         newButton.className = 'btn btn-outline-secondary ml-2';
+        //         newButton.textContent = customBtnName;
+        //         newButton.onclick = () => alert(`${customBtnName} button clicked.`);
+        //         document.querySelector('.btn-toolbar .btn-group').appendChild(newButton);
+        //     }
+        // });
+
+        const applicationData = [
+            { company: 'Google', title: 'Software Engineer', date: '2024-11-01', status: 'Applied' },
+            { company: 'Amazon', title: 'Data Analyst', date: '2024-10-15', status: 'Interview Scheduled' },
+            { company: 'Facebook', title: 'Product Manager', date: '2024-10-05', status: 'Rejected' }
+        ];
+
+        function loadDashboardData() {
+            const tableBody = document.getElementById('applications-table-body');
+            applicationData.forEach(app => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                <td>${app.company}</td>
+                <td>${app.title}</td>
+                <td>${app.date}</td>
+                <td>${app.status}</td>
+            `;
+                tableBody.appendChild(row);
+            });
+        }
+        loadDashboardData()
+    </script> -->
+
+</body>
+
+</html>

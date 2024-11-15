@@ -13,119 +13,52 @@
     <link rel="stylesheet" href="/assets/css/font.css">
     <!-- Add Custom CSS -->
     <link rel="stylesheet" href="/assets/css/style.css">
-    <style>
-        html {
-            width: 700px;
-            height: 500px;
-            /* padding: 15px; */
-        }
-    </style>
 </head>
 
 <body>
-    <input type="text" id="autoFillInput" placeholder="Enter text to fill">
-    <button id="fillFormButton">Fill Form</button>
 
-    
-    <div class="extension-container">
-        <h1>Auto Form Filler</h1>
+    <div class="container my-4">
 
-        <!-- Profile Selection Section -->
-        <div class="mb-4">
-            <h5>Profile Management</h5>
-            <p>Select or create a profile for job applications.</p>
-            <button class="btn btn-primary btn-sm mb-2">Create New Profile</button>
-            <div class="form-group">
-                <label for="profileSelect" class="form-label">Choose Profile:</label>
-                <select id="profileSelect" class="form-select">
-                    <option>Default Profile</option>
-                    <option>Software Engineer</option>
-                    <option>Project Manager</option>
-                </select>
-            </div>
-            <input type="text" id="newProfileName" class="form-control mb-2" placeholder="Enter new profile name">
-            <button id="addProfileButton" class="btn btn-primary btn-sm">Create New Profile</button>
-            <button id="deleteProfileButton" class="btn btn-danger btn-sm">Delete Profile</button>
-        </div>
-
-        <!-- Customizable Data Fields Section -->
-        <div class="mb-4">
-            <h5>Data Fields</h5>
-            <p>Add or edit information to be used for form filling.</p>
-            <button class="btn btn-secondary btn-sm mb-2">Edit LinkedIn Data</button>
-            <button class="btn btn-secondary btn-sm mb-2">Add Custom Field</button>
-            <div>
-                <p><strong>Name:</strong> John Doe</p>
-                <p><strong>Experience:</strong> 5 years</p>
-                <p><strong>Skills:</strong> JavaScript, HTML, CSS</p>
-            </div>
-
-            <!-- Data fields added -->
-            <div>
-                <input type="text" id="fullNameInput" placeholder="Full Name" class="form-control mb-2">
-                <input type="email" id="emailInput" placeholder="Email Address" class="form-control mb-2">
-                <input type="tel" id="phoneInput" placeholder="Phone Number" class="form-control mb-2">
-                <button id="fillFormButton" class="btn btn-primary">Save & Fill Form</button>
+        <div class="btn-toolbar mb-4" role="toolbar" aria-label="Toolbar with button groups">
+            <div class="w-100 btn-group mr-2 d-flex justify-content-between" role="group">
+                <a href="/index.html" id="main-btn" class="btn btn-success">User Info</a>
+                <a href="/pages/dashboard.html" id="dashboard-btn" class="btn btn-primary">Applications</a>
+                <!-- <button id="extract-btn" class="btn btn-secondary">Extract LinkedIn</button> -->
+                <a id="export-btn" class="btn btn-info">Export</a>
+                <a id="import-btn" class="btn btn-warning">Import</a>
             </div>
         </div>
+        <h2>Job Application Form</h2>
 
-        <!-- Form Field Mapping Section -->
-        <div class="mb-4">
-            <h5>Form Field Mapping</h5>
-            <p>Map LinkedIn data fields to application form fields.</p>
-            <button class="btn btn-outline-primary btn-sm">Configure Mapping</button>
+
+        <!-- Profile Selection -->
+        <div class="form-group mb-4">
+            <label for="profile-select">Choose Profile</label>
+            <select id="profile-select" class="form-control">
+                <option value="" disabled selected>Select Profile</option>
+            </select>
+            <button id="add-profile-btn" class="btn btn-primary mt-2">Add New Profile</button>
         </div>
 
-        <!-- Cover Letter Generation Section -->
-        <div class="mb-4">
-            <h5>Auto Cover Letter</h5>
-            <p>Generate a tailored cover letter for the job application.</p>
-            <button class="btn btn-outline-secondary btn-sm mb-2">Generate Cover Letter</button>
-            <textarea class="form-control" rows="3" placeholder="Cover letter will appear here..."></textarea>
+        <form id="job-application-form">
+            <!-- Placeholder for dynamically added fields -->
+            
+        </form>
+
+        <div class="mt-3">
+            <h4>Removed Fields</h4>
+            <select id="removed-fields" class="form-control">
+                <option value="" disabled selected>Select a field to re-add</option>
+            </select>
+            <button id="readd-field-btn" class="btn btn-secondary mt-2">Re-add Selected Field</button>
         </div>
 
-        <!-- Job Application Tracking Section -->
-        <div class="mb-4">
-            <h5>Application Tracking</h5>
-            <p>Track your job applications and view their statuses.</p>
-            <button class="btn btn-outline-primary btn-sm mb-2">View Dashboard</button>
-            <table class="table table-bordered table-sm">
-                <thead class="table-light">
-                    <tr>
-                        <th>№</th>
-                        <th>Company</th>
-                        <th>Job Title</th>
-                        <th>Date</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td>Company A</td>
-                        <td>Software Engineer</td>
-                        <td>11/10/2024</td>
-                        <td>Applied</td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td>Company B</td>
-                        <td>Project Manager</td>
-                        <td>11/08/2024</td>
-                        <td>Interview</td>
-                    </tr>
-                </tbody>
-            </table>
+        <!-- Add custom field -->
+        <div class="mt-3">
+            <button id="add-custom-field-btn" class="btn btn-primary">Add Custom Field</button>
         </div>
 
-        <!-- Data Transfer Section -->
-        <div>
-            <h5>Data Transfer</h5>
-            <p>Export or import your data for backup or transfer.</p>
-            <button class="btn btn-outline-secondary btn-sm">Export Data</button>
-            <button class="btn btn-outline-secondary btn-sm">Import Data</button>
-        </div>
-
+        <button type="submit" class="btn btn-success mt-4" form="job-application-form" id="save_data">Submit Application</button>
     </div>
 
     <!-- Add jQuery -->
