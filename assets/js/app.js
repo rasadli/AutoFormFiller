@@ -194,3 +194,79 @@ document.addEventListener('DOMContentLoaded', () => {
   loadProfilesFromStorage();
 });
 
+
+// Elements for field mapping
+const formFieldNameInput = document.getElementById("formFieldName");
+const mappedDataFieldSelect = document.getElementById("mappedDataField");
+const saveMappingButton = document.getElementById("saveMappingButton");
+const mappingList = document.getElementById("mappingList");
+
+// Load existing mappings on page load
+document.addEventListener("DOMContentLoaded", function () {
+    loadMappings();
+});
+
+// Save a new mapping
+saveMappingButton.addEventListener("click", () => {
+    const formFieldName = formFieldNameInput.value.trim();
+    const mappedDataField = mappedDataFieldSelect.value;
+
+    if (!formFieldName) {
+        alert("Please enter a form field name.");
+        return;
+    }
+
+    chrome.storage.local.get("fieldMappings", (result) => {
+        const mappings = result.fieldMappings || {};
+        mappings[formFieldName] = mappedDataField; // Save mapping
+        chrome.storage.local.set({ fieldMappings: mappings }, () => {
+            console.log("Mapping saved:", mappings);
+            loadMappings(); // Reload mapping list
+        });
+    });
+
+    formFieldNameInput.value = ""; // Clear inputs
+    mappedDataFieldSelect.value = "fullName";
+});
+
+// Load and display saved mappings
+function loadMappings() {
+    chrome.storage.local.get("fieldMappings", (result) => {
+        const mappings = result.fieldMappings || {};
+        mappingList.innerHTML = ""; // Clear existing list
+        for (const [formFieldName, mappedDataField] of Object.entries(mappings)) {
+            const listItem = document.createElement("li");
+            listItem.className = "list-group-item d-flex justify-content-between align-items-center";
+            listItem.textContent = `${formFieldName} → ${mappedDataField}`;
+            const deleteButton = document.createElement("button");
+            deleteButton.className = "btn btn-danger btn-sm";
+            deleteButton.textContent = "Delete";
+            deleteButton.addEventListener("click", () => deleteMapping(formFieldName));
+            listItem.appendChild(deleteButton);
+            mappingList.appendChild(listItem);
+        }
+    });
+}
+
+// Delete a mapping
+function deleteMapping(formFieldName) {
+    chrome.storage.local.get("fieldMappings", (result) => {
+        const mappings = result.fieldMappings || {};
+        delete mappings[formFieldName];
+        chrome.storage.local.set({ fieldMappings: mappings }, loadMappings); // Reload mapping list
+    });
+}
+
+// Use saved mappings to fill forms
+function fillFormWithMappings(inputData) {
+    chrome.storage.local.get("fieldMappings", (result) => {
+        const mappings = result.fieldMappings || {};
+
+        for (const [formFieldName, mappedDataField] of Object.entries(mappings)) {
+            const inputElement = document.querySelector(`[name="${formFieldName}"]`);
+            if (inputElement && inputData[mappedDataField]) {
+                inputElement.value = inputData[mappedDataField]; // Fill form field
+            }
+        }
+    });
+}
