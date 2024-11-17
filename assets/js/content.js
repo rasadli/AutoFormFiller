@@ -49,4 +49,41 @@ if (window.location.href.includes("linkedin.com/in")) {
 
   });
 }
+// Auto-Fill Functionality (Added Below)
+
+
+// Function to fill the form on the current webpage
+function fillWebsiteForm(profileData) {
+  const fieldMapping = {
+    "name": "fullName",
+    "email": "email",
+    "phone": "phoneNumber",
+    "city": "city",
+    "citizenship_status": "citizenshipStatus",
+    "state_province": "state",
+    "date_of_birth": "dateOfBirth"
+  };
+
+  const inputs = document.querySelectorAll("input, textarea, select");
+
+  inputs.forEach((input) => {
+    const fieldName = input.name || input.id || input.placeholder;
+    const mappedKey = fieldMapping[fieldName.toLowerCase()] || fieldName.toLowerCase();
+
+    if (mappedKey && profileData[mappedKey]) {
+      input.removeAttribute("readonly");
+      input.value = profileData[mappedKey];
+    }
+  });
+
+  alert("Form auto-filled with your profile data!");
+}
+
+// Listen for messages from the extension popup or background
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.action === "fillForm" && request.data) {
+    fillWebsiteForm(request.data);
+    sendResponse({ status: "Form auto-filled" });
+  }
+});
 
