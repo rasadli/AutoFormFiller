@@ -195,6 +195,55 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// Function to auto-fill the website's form with the selected profile's data
+function autoFillForm() {
+    // Get the selected profile
+    const selectedProfile = profileSelect.value;
+  
+    if (selectedProfile === "0") {
+      alert("Please choose or create a profile before using Auto-Fill.");
+      return;
+    }
+  
+    // Retrieve the saved profile data
+    const profileData = profiles[selectedProfile]?.data || {};
+  
+    // Check if profile data exists
+    if (Object.keys(profileData).length === 0) {
+      alert("No data found in the selected profile. Please save data first.");
+      return;
+    }
+  
+    // Use a content script to fill the form on the active website
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+      chrome.scripting.executeScript({
+        target: { tabId: tabs[0].id },
+        func: fillWebsiteForm,
+        args: [profileData],
+      });
+    });
+  }
+  
+  // Content script function to fill the form on the current website
+  function fillWebsiteForm(profileData) {
+    // Find all form fields on the website
+    const inputs = document.querySelectorAll("input, textarea, select");
+  
+    inputs.forEach((input) => {
+      const fieldName = input.name || input.id || input.placeholder;
+  
+      // Match and fill fields with the saved profile data
+      if (fieldName && profileData[fieldName]) {
+        input.value = profileData[fieldName];
+      }
+    });
+  
+    alert("Form auto-filled with your profile data!");
+  }
+  
+  // Add Auto-Fill button to trigger this functionality
+  document.getElementById("auto-fill-btn").addEventListener("click", autoFillForm);
+/*
 // Elements for field mapping
 const formFieldNameInput = document.getElementById("formFieldName");
 const mappedDataFieldSelect = document.getElementById("mappedDataField");
@@ -269,4 +318,4 @@ function fillFormWithMappings(inputData) {
             }
         }
     });
-}
+}*/
