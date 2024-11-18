@@ -28,8 +28,6 @@
                 <a id="import-btn" class="btn btn-warning">Import</a>
             </div>
         </div>
-        <h2>Job Application Form</h2>
-
 
         <!-- Profile Selection -->
         <div class="form-group mb-4">
@@ -40,35 +38,16 @@
             <button id="add-profile-btn" class="btn btn-primary mt-2">Add New Profile</button>
         </div>
 
+        <div class="my-4">
+            <h4>Auto-Fill </h4>
+            <p>Use this button to automatically fill the job application form with the selected profile data.</p>
+            <button id="auto-fill-btn" class="btn btn-primary">Auto-Fill Form</button>
+        </div>
+
         <form id="job-application-form">
-            <!-- Placeholder for dynamically added fields -->
 
-
-              <!-- Added static fields for company, job title, date, and status -->
-            <div class="form-group">
-                <label for="company">Company</label>
-                <input type="text" id="company" name="company" class="form-control" placeholder="Enter Company Name" required>
-            </div>
-            <div class="form-group">
-                <label for="title">Job Title</label>
-                <input type="text" id="title" name="title" class="form-control" placeholder="Enter Job Title" required>
-            </div>
-            <div class="form-group">
-                <label for="date">Date Applied</label>
-                <input type="date" id="date" name="date" class="form-control">
-            </div>
-            <div class="form-group">
-                <label for="status">Application Status</label>
-                <select id="status" name="status" class="form-control">
-                    <option value="Applied">Applied</option>
-                    <option value="Interview Scheduled">Interview Scheduled</option>
-                    <option value="Rejected">Rejected</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-success mt-4" id="save_data">Submit Application</button>
-            </div>
-            
         </form>
+        <button type="submit" class="btn btn-success mt-4" form="job-application-form" id="save_data">Submit Application</button>
 
         <div class="mt-3">
             <h4>Removed Fields</h4>
@@ -83,17 +62,7 @@
             <button id="add-custom-field-btn" class="btn btn-primary">Add Custom Field</button>
         </div>
 
-        <button type="submit" class="btn btn-success mt-4" form="job-application-form" id="save_data">Submit Application</button>
     </div>
-
-    <div class="mt-4">
-        <h4>Auto-Fill </h4>
-        <p>Use this button to automatically fill the job application form with the selected profile data.</p>
-        <button id="auto-fill-btn" class="btn btn-primary">Auto-Fill Form</button>
-    </div>
-    
-
-
 
     <!-- Add jQuery -->
     <script src="/assets/js/jquery-3.7.1.min.js"></script>

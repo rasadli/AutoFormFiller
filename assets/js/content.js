@@ -1,5 +1,4 @@
 console.log("Content script is running!");
-console.log(window.location.href);
 
 if (window.location.href.includes("linkedin.com/in")) {
   console.log("testLinkediun");
@@ -8,7 +7,7 @@ if (window.location.href.includes("linkedin.com/in")) {
   const grabDataButton = document.createElement("button");
   grabDataButton.textContent = "Grab LinkedIn Data";
   grabDataButton.style.position = "fixed";
-  grabDataButton.style.bottom = "20px";
+  grabDataButton.style.bottom = "100px";
   grabDataButton.style.right = "20px";
   grabDataButton.style.zIndex = "1000";
   grabDataButton.style.padding = "10px 15px";
@@ -53,38 +52,49 @@ if (window.location.href.includes("linkedin.com/in")) {
 
 // Auto-Fill Functionality (Added Below)
 
-// Function to fill the form on the current webpage
-function fillWebsiteForm(profileData) {
-  const fieldMapping = {
-    "name": "fullName",
-    "email": "email",
-    "phone": "phoneNumber",
-    "city": "city",
-    "citizenship_status": "citizenshipStatus",
-    "state_province": "state",
-    "date_of_birth": "dateOfBirth"
-  };
+// Listen for messages from the popup or background script
+chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+  if (message.action === "fillForm") {
+    const { profileData, defaultFields } = message;
+    fillWebsiteForm(profileData, defaultFields);
+    sendResponse({ success: true });
+  }
+});
+
+// Function to fill the form
+function fillWebsiteForm(profileData, defaultFields) {
+  function normalizeFieldName(fieldName) {
+    return fieldName?.replace(/[-_]/g, "").toLowerCase() || "";
+  }
 
   const inputs = document.querySelectorAll("input, textarea, select");
 
   inputs.forEach((input) => {
-    const fieldName = input.name || input.id || input.placeholder;
-    const mappedKey = fieldMapping[fieldName.toLowerCase()] || fieldName.toLowerCase();
+    const fieldName = normalizeFieldName(input.name || input.id || input.placeholder);
 
-    if (mappedKey && profileData[mappedKey]) {
-      input.removeAttribute("readonly");
-      input.value = profileData[mappedKey];
+    const matchedKey = Object.keys(profileData).find(
+      (key) => normalizeFieldName(key) === fieldName
+    );
+
+    const matchedDefaultField = !matchedKey
+      ? defaultFields.find((field) => normalizeFieldName(field.id) === fieldName)
+      : null;
+
+    const valueToSet = matchedKey
+      ? profileData[matchedKey]
+      : matchedDefaultField
+      ? profileData[matchedDefaultField.id]
+      : null;
+
+    if (valueToSet !== null && valueToSet !== undefined) {
+      if (input.tagName === "SELECT") {
+        input.value = valueToSet;
+        input.dispatchEvent(new Event("change"));
+      } else {
+        input.value = valueToSet;
+      }
     }
   });
 
   alert("Form auto-filled with your profile data!");
 }
-
-// Listen for messages from the extension popup or background
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.action === "fillForm" && request.data) {
-    fillWebsiteForm(request.data);
-    sendResponse({ status: "Form auto-filled" });
-  }
-});
-

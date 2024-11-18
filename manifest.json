@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "Auto Form Filler Extensions",
-  "description": "Base Level Extension",
+  "name": "Auto Form Filler Extension",
+  "description": "Auto-fill form using profile data",
   "version": "1.0",
   "action": {
     "default_popup": "index.html",
@@ -9,7 +9,10 @@
   },
   "content_scripts": [
     {
-      "matches": ["<all_urls>"],
+      "matches": [
+        "https://*/*",
+        "http://*/*"
+      ],
       "js": ["assets/js/content.js"]
     }
   ],

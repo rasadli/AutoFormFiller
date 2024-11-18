@@ -9,7 +9,7 @@ const defaultFields = [
   { label: "Citizenship Status", type: "select", id: "citizenship-status", options: ["Citizen", "Permanent Resident", "Visa Holder"] },
   { label: "State/Province", type: "text", id: "state" },
   { label: "Date of Birth", type: "date", id: "date-of-birth" },
-  { label: "Resume Upload", type: "file", id: "resume-upload", accept: ".pdf,.doc,.docx" },
+  // { label: "Resume Upload", type: "file", id: "resume-upload", accept: ".pdf,.doc,.docx" },
   { label: "Languages Spoken", type: "textarea", id: "languages-spoken" },
   { label: "Why Do You Want This Job?", type: "textarea", id: "job-motivation" },
   { label: "Achievements and Awards", type: "textarea", id: "achievements" },
@@ -37,16 +37,16 @@ function renderField(field) {
 
   let input;
   if (field.type === 'textarea') {
-      input = document.createElement('textarea');
-      input.rows = 2;
+    input = document.createElement('textarea');
+    input.rows = 2;
   } else if (field.type === 'select') {
-      input = document.createElement('select');
-      input.className = 'form-control';
-      input.innerHTML = field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+    input = document.createElement('select');
+    input.className = 'form-control';
+    input.innerHTML = field.options.map(opt => `<option value="${opt}">${opt}</option>`).join('');
   } else {
-      input = document.createElement('input');
-      input.type = field.type;
-      if (field.accept) input.accept = field.accept;
+    input = document.createElement('input');
+    input.type = field.type;
+    if (field.accept) input.accept = field.accept;
   }
   input.className = 'form-control';
   input.name = field.id;
@@ -56,8 +56,8 @@ function renderField(field) {
   deleteBtn.className = 'btn btn-danger';
   deleteBtn.textContent = 'Remove';
   deleteBtn.onclick = (e) => {
-      e.preventDefault();
-      removeField(field, formGroup);
+    e.preventDefault();
+    removeField(field, formGroup);
   };
 
   // Append label, input, and delete button to the input group
@@ -65,7 +65,7 @@ function renderField(field) {
   inputGroupDiv.appendChild(deleteBtn);
   formGroup.appendChild(label);
   formGroup.appendChild(inputGroupDiv);
-  
+
   jobApplicationForm.appendChild(formGroup);
 }
 
@@ -81,9 +81,9 @@ function reAddField() {
   const selectedFieldId = removedFieldsSelect.value;
   const fieldIndex = removedFields.findIndex(f => f.id === selectedFieldId);
   if (fieldIndex !== -1) {
-      const field = removedFields.splice(fieldIndex, 1)[0];
-      renderField(field);
-      updateRemovedFieldsSelect();
+    const field = removedFields.splice(fieldIndex, 1)[0];
+    renderField(field);
+    updateRemovedFieldsSelect();
   }
 }
 
@@ -91,10 +91,10 @@ function reAddField() {
 function updateRemovedFieldsSelect() {
   removedFieldsSelect.innerHTML = `<option value="" disabled selected>Select a field to re-add</option>`;
   removedFields.forEach(field => {
-      const option = document.createElement('option');
-      option.value = field.id;
-      option.textContent = field.label;
-      removedFieldsSelect.appendChild(option);
+    const option = document.createElement('option');
+    option.value = field.id;
+    option.textContent = field.label;
+    removedFieldsSelect.appendChild(option);
   });
 }
 
@@ -102,22 +102,22 @@ function updateRemovedFieldsSelect() {
 function addCustomField() {
   const label = prompt("Enter the field label:");
   if (label) {
-      const fieldType = prompt("Enter the field type (text, email, date, etc.):");
-      if (fieldType) {
-          const fieldId = label.toLowerCase().replace(/ /g, '-');
-          const newField = { label, type: fieldType, id: fieldId };
-          renderField(newField);
-      }
+    const fieldType = prompt("Enter the field type (text, email, date, etc.):");
+    if (fieldType) {
+      const fieldId = label.toLowerCase().replace(/ /g, '-');
+      const newField = { label, type: fieldType, id: fieldId };
+      renderField(newField);
+    }
   }
 }
 
 // Function to load profiles from Chrome Storage
 function loadProfilesFromStorage() {
   chrome.storage.local.get("profiles", (result) => {
-      if (result.profiles) {
-          Object.assign(profiles, result.profiles);
-          populateProfileSelect();
-      }
+    if (result.profiles) {
+      Object.assign(profiles, result.profiles);
+      populateProfileSelect();
+    }
   });
 }
 
@@ -130,20 +130,20 @@ function saveProfilesToStorage() {
 function populateProfileSelect() {
   profileSelect.innerHTML = `<option value="0" disabled selected>Select a profile</option>`;
   for (const profileName in profiles) {
-      const option = document.createElement('option');
-      option.value = profileName;
-      option.textContent = profileName;
-      profileSelect.appendChild(option);
+    const option = document.createElement('option');
+    option.value = profileName;
+    option.textContent = profileName;
+    profileSelect.appendChild(option);
   }
 }
 
 // Function to load profile data into form fields
 function loadProfileData(profileData) {
   for (const key in profileData) {
-      const input = document.querySelector(`[name="${key}"]`);
-      if (input) {
-          input.value = profileData[key] || "";
-      }
+    const input = document.querySelector(`[name="${key}"]`);
+    if (input) {
+      input.value = profileData[key] || "";
+    }
   }
 }
 
@@ -151,7 +151,7 @@ function loadProfileData(profileData) {
 profileSelect.addEventListener('change', () => {
   const selectedProfile = profileSelect.value;
   if (selectedProfile !== "0" && profiles[selectedProfile]) {
-      loadProfileData(profiles[selectedProfile].data);
+    loadProfileData(profiles[selectedProfile].data);
   }
 });
 
@@ -159,12 +159,12 @@ profileSelect.addEventListener('change', () => {
 document.getElementById('add-profile-btn').addEventListener('click', () => {
   const profileName = prompt("Enter profile name:");
   if (profileName && !profiles[profileName]) {
-      profiles[profileName] = { data: {} };
-      saveProfilesToStorage();
-      populateProfileSelect();
-      alert(`Profile "${profileName}" created!`);
+    profiles[profileName] = { data: {} };
+    saveProfilesToStorage();
+    populateProfileSelect();
+    alert(`Profile "${profileName}" created!`);
   } else {
-      alert("Profile name is required or already exists.");
+    alert("Profile name is required or already exists.");
   }
 });
 
@@ -172,17 +172,17 @@ document.getElementById('add-profile-btn').addEventListener('click', () => {
 document.getElementById("job-application-form").addEventListener("submit", function (event) {
   const selectedProfile = profileSelect.value;
   if (selectedProfile !== "0") {
-      event.preventDefault();
-      const formData = new FormData(event.target);
-      const dataObject = {};
-      formData.forEach((value, key) => {
-          dataObject[key] = value;
-      });
-      profiles[selectedProfile].data = dataObject;
-      saveProfilesToStorage();
-      alert(`Data saved for profile "${selectedProfile}"!`);
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const dataObject = {};
+    formData.forEach((value, key) => {
+      dataObject[key] = value;
+    });
+    profiles[selectedProfile].data = dataObject;
+    saveProfilesToStorage();
+    alert(`Data saved for profile "${selectedProfile}"!`);
   } else {
-      alert("Please choose or create a profile.");
+    alert("Please choose or create a profile.");
   }
 });
 
@@ -195,127 +195,31 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-// Function to auto-fill the website's form with the selected profile's data
+document.getElementById("auto-fill-btn").addEventListener("click", autoFillForm);
+
 function autoFillForm() {
-    // Get the selected profile
-    const selectedProfile = profileSelect.value;
-  
-    if (selectedProfile === "0") {
-      alert("Please choose or create a profile before using Auto-Fill.");
+  const selectedProfile = profileSelect.value;
+
+  if (selectedProfile === "0") {
+    alert("Please choose or create a profile before using Auto-Fill.");
+    return;
+  }
+
+  const profileData = profiles[selectedProfile]?.data || {};
+
+  if (Object.keys(profileData).length === 0) {
+    alert("No data found in the selected profile. Please save data first.");
+    return;
+  }
+
+  // Send a message to the active tab to fill the form
+  chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+    if (tabs.length === 0) {
+      alert("No active tab found!");
       return;
     }
-  
-    // Retrieve the saved profile data
-    const profileData = profiles[selectedProfile]?.data || {};
-  
-    // Check if profile data exists
-    if (Object.keys(profileData).length === 0) {
-      alert("No data found in the selected profile. Please save data first.");
-      return;
-    }
-  
-    // Use a content script to fill the form on the active website
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-      chrome.scripting.executeScript({
-        target: { tabId: tabs[0].id },
-        func: fillWebsiteForm,
-        args: [profileData],
-      });
-    });
-  }
-  
-  // Content script function to fill the form on the current website
-  function fillWebsiteForm(profileData) {
-    // Find all form fields on the website
-    const inputs = document.querySelectorAll("input, textarea, select");
-  
-    inputs.forEach((input) => {
-      const fieldName = input.name || input.id || input.placeholder;
-  
-      // Match and fill fields with the saved profile data
-      if (fieldName && profileData[fieldName]) {
-        input.value = profileData[fieldName];
-      }
-    });
-  
-    alert("Form auto-filled with your profile data!");
-  }
-  
-  // Add Auto-Fill button to trigger this functionality
-  document.getElementById("auto-fill-btn").addEventListener("click", autoFillForm);
-/*
-// Elements for field mapping
-const formFieldNameInput = document.getElementById("formFieldName");
-const mappedDataFieldSelect = document.getElementById("mappedDataField");
-const saveMappingButton = document.getElementById("saveMappingButton");
-const mappingList = document.getElementById("mappingList");
-
-// Load existing mappings on page load
-document.addEventListener("DOMContentLoaded", function () {
-    loadMappings();
-});
-
-// Save a new mapping
-saveMappingButton.addEventListener("click", () => {
-    const formFieldName = formFieldNameInput.value.trim();
-    const mappedDataField = mappedDataFieldSelect.value;
-
-    if (!formFieldName) {
-        alert("Please enter a form field name.");
-        return;
-    }
-
-    chrome.storage.local.get("fieldMappings", (result) => {
-        const mappings = result.fieldMappings || {};
-        mappings[formFieldName] = mappedDataField; // Save mapping
-        chrome.storage.local.set({ fieldMappings: mappings }, () => {
-            console.log("Mapping saved:", mappings);
-            loadMappings(); // Reload mapping list
-        });
-    });
-
-    formFieldNameInput.value = ""; // Clear inputs
-    mappedDataFieldSelect.value = "fullName";
-});
-
-// Load and display saved mappings
-function loadMappings() {
-    chrome.storage.local.get("fieldMappings", (result) => {
-        const mappings = result.fieldMappings || {};
-        mappingList.innerHTML = ""; // Clear existing list
-        for (const [formFieldName, mappedDataField] of Object.entries(mappings)) {
-            const listItem = document.createElement("li");
-            listItem.className = "list-group-item d-flex justify-content-between align-items-center";
-            listItem.textContent = `${formFieldName} → ${mappedDataField}`;
-            const deleteButton = document.createElement("button");
-            deleteButton.className = "btn btn-danger btn-sm";
-            deleteButton.textContent = "Delete";
-            deleteButton.addEventListener("click", () => deleteMapping(formFieldName));
-            listItem.appendChild(deleteButton);
-            mappingList.appendChild(listItem);
-        }
-    });
+    console.log("Sending message to active tab:", tabs[0].id);  
+    chrome.tabs.sendMessage(tabs[0].id, { action: "fillForm", profileData,defaultFields });
+  });
 }
 
-// Delete a mapping
-function deleteMapping(formFieldName) {
-    chrome.storage.local.get("fieldMappings", (result) => {
-        const mappings = result.fieldMappings || {};
-        delete mappings[formFieldName];
-        chrome.storage.local.set({ fieldMappings: mappings }, loadMappings); // Reload mapping list
-    });
-}
-
-// Use saved mappings to fill forms
-function fillFormWithMappings(inputData) {
-    chrome.storage.local.get("fieldMappings", (result) => {
-        const mappings = result.fieldMappings || {};
-
-        for (const [formFieldName, mappedDataField] of Object.entries(mappings)) {
-            const inputElement = document.querySelector(`[name="${formFieldName}"]`);
-            if (inputElement && inputData[mappedDataField]) {
-                inputElement.value = inputData[mappedDataField]; // Fill form field
-            }
-        }
-    });
-}*/
