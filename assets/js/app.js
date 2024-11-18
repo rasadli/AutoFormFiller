@@ -49,6 +49,7 @@ function renderField(field) {
     if (field.accept) input.accept = field.accept;
   }
   input.className = 'form-control';
+  input.id = field.id;
   input.name = field.id;
 
   // Create remove button
@@ -218,8 +219,29 @@ function autoFillForm() {
       alert("No active tab found!");
       return;
     }
-    console.log("Sending message to active tab:", tabs[0].id);  
-    chrome.tabs.sendMessage(tabs[0].id, { action: "fillForm", profileData,defaultFields });
+    console.log("Sending message to active tab:", tabs[0].id);
+    chrome.tabs.sendMessage(tabs[0].id, { action: "fillForm", profileData, defaultFields });
   });
 }
 
+
+
+
+chrome.storage.local.get("LinkedInData", (result) => {
+  console.log(result)
+  const LinkedInData = result.LinkedInData
+  if (LinkedInData) {
+    console.log(LinkedInData.name)
+    console.log(LinkedInData.surname)
+
+    // Update the DOM with the new data
+    document.getElementById("first-name").value = LinkedInData.name || "N/A";
+    document.getElementById("last-name").value = LinkedInData.surname || "N/A";
+    document.getElementById("city").value = LinkedInData.location || "N/A";
+    // If needed, you can also update other elements
+    // document.getElementById("profile-headline").innerText = updatedData.headline || "N/A";
+    // document.getElementById("profile-location").innerText = updatedData.location || "N/A";
+
+    alert('Data has been filled into the inputs taken from the LinkedIn webpage using Grab LinkedIn Data button.');
+  }
+});

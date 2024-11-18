@@ -35,16 +35,17 @@ if (window.location.href.includes("linkedin.com/in")) {
     console.log(profileData)
 
     try {
-      chrome.runtime.sendMessage({ action: "sendData", data: profileData }, (response) => {
+      chrome.runtime.sendMessage({ action: "saveLinkedInData", data: profileData }, (response) => {
         if (chrome.runtime.lastError) {
           console.error("Error sending message:", chrome.runtime.lastError.message);
         } else {
           console.log("Data sent to extension:", response);
+          alert('Data sent to extension.');
         }
       });
     } catch (error) {
       console.error("Error in sending message:", error);
-    }    
+    }
 
   });
 }
@@ -83,8 +84,8 @@ function fillWebsiteForm(profileData, defaultFields) {
     const valueToSet = matchedKey
       ? profileData[matchedKey]
       : matchedDefaultField
-      ? profileData[matchedDefaultField.id]
-      : null;
+        ? profileData[matchedDefaultField.id]
+        : null;
 
     if (valueToSet !== null && valueToSet !== undefined) {
       if (input.tagName === "SELECT") {
