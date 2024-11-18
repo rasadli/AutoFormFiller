@@ -7,7 +7,7 @@ if (window.location.href.includes("linkedin.com/in")) {
   const grabDataButton = document.createElement("button");
   grabDataButton.textContent = "Grab LinkedIn Data";
   grabDataButton.style.position = "fixed";
-  grabDataButton.style.bottom = "100px";
+  grabDataButton.style.bottom = "50px";
   grabDataButton.style.right = "20px";
   grabDataButton.style.zIndex = "1000";
   grabDataButton.style.padding = "10px 15px";
@@ -98,4 +98,90 @@ function fillWebsiteForm(profileData, defaultFields) {
   });
 
   alert("Form auto-filled with your profile data!");
+}
+
+
+// Save draft
+
+if (document.querySelector('form') != null) {
+  console.log('draftButton')
+  // Create the button
+  const saveDraftButton = document.createElement("button");
+  saveDraftButton.textContent = "Save As Draft";
+  saveDraftButton.style.position = "fixed";
+  saveDraftButton.style.bottom = "50px";
+  saveDraftButton.style.right = "50px";
+  saveDraftButton.style.zIndex = "1000";
+  saveDraftButton.style.padding = "10px 15px";
+  saveDraftButton.style.backgroundColor = "#0073b1";
+  saveDraftButton.style.color = "#ffffff";
+  saveDraftButton.style.border = "none";
+  saveDraftButton.style.borderRadius = "5px";
+  saveDraftButton.style.cursor = "pointer";
+
+  document.body.appendChild(saveDraftButton);
+
+  saveDraftButton.addEventListener('click', () => {
+    const formElement = document.querySelector('form');
+    const currentPageURL = window.location.href;
+
+    if (!formElement) {
+      console.error("No form found at the specified index.");
+      return;
+    }
+
+    const currentForm = new FormData(formElement);
+    const currentFormData = {};
+
+    console.log("Form Element:", formElement);
+
+    currentForm.forEach((value, key) => {
+      console.log(`Key: ${key}, Value: ${value}`);
+      currentFormData[key] = value;
+    });
+
+    console.log("Extracted Form Data:", currentFormData);
+
+    // Serialize data and save to localStorage
+    localStorage.setItem(`${currentPageURL}`, JSON.stringify(currentFormData));
+  });
+
+}
+
+const savedData = localStorage.getItem(window.location.href);
+if (savedData) {
+  const formData = JSON.parse(savedData);
+  console.log("Retrieved Form Data:", formData);
+
+  const useDraftButton = document.createElement("button");
+  useDraftButton.textContent = "Use Draft";
+  useDraftButton.style.position = "fixed";
+  useDraftButton.style.bottom = "50px";
+  useDraftButton.style.right = "170px";
+  useDraftButton.style.zIndex = "1000";
+  useDraftButton.style.padding = "10px 15px";
+  useDraftButton.style.backgroundColor = "#0084cc";
+  useDraftButton.style.color = "#ffffff";
+  useDraftButton.style.border = "none";
+  useDraftButton.style.borderRadius = "5px";
+  useDraftButton.style.cursor = "pointer";
+
+  document.body.appendChild(useDraftButton);
+
+  useDraftButton.addEventListener('click', () => {
+    console.log(formData)
+    for (const key in formData) {
+      if (formData.hasOwnProperty(key)) {
+        const formElement = document.querySelector(`[name="${key}"]`);
+
+        if (formElement) {
+          if (formElement.type === 'radio' || formElement.type === 'checkbox') {
+            formElement.checked = (formElement.value === formData[key]);
+          } else {
+            formElement.value = formData[key];
+          }
+        }
+      }
+    }
+  })
 }
