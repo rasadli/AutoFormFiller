@@ -13,7 +13,19 @@
         "https://*/*",
         "http://*/*"
       ],
-      "js": ["assets/js/content.js"]
+      "js": [
+        "assets/js/content.js"
+      ]
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "assets/js/importmap.json"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
     }
   ],
   "permissions": [
@@ -30,5 +42,8 @@
     "32": "assets/images/main_logo.png",
     "48": "assets/images/main_logo.png",
     "128": "assets/images/main_logo.png"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self'; object-src 'self'"
   }
 }

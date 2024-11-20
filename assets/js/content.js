@@ -108,6 +108,7 @@ if (document.querySelector('form') != null) {
   // Create the button
   const saveDraftButton = document.createElement("button");
   saveDraftButton.textContent = "Save As Draft";
+  saveDraftButton.style.height = "auto";
   saveDraftButton.style.position = "fixed";
   saveDraftButton.style.bottom = "50px";
   saveDraftButton.style.right = "50px";
@@ -155,9 +156,10 @@ if (savedData) {
 
   const useDraftButton = document.createElement("button");
   useDraftButton.textContent = "Use Draft";
+  useDraftButton.style.height = "auto";
   useDraftButton.style.position = "fixed";
   useDraftButton.style.bottom = "50px";
-  useDraftButton.style.right = "170px";
+  useDraftButton.style.right = "200px";
   useDraftButton.style.zIndex = "1000";
   useDraftButton.style.padding = "10px 15px";
   useDraftButton.style.backgroundColor = "#0084cc";
@@ -186,35 +188,3 @@ if (savedData) {
   })
 }
 
-
-// Cover Letter Generation
-const generateCoverLetterButton = document.createElement("button");
-generateCoverLetterButton.textContent = "Generate Cover Letter";
-generateCoverLetterButton.style.position = "fixed";
-generateCoverLetterButton.style.bottom = "120px";
-generateCoverLetterButton.style.right = "20px";
-generateCoverLetterButton.style.zIndex = "1000";
-generateCoverLetterButton.style.padding = "10px 15px";
-generateCoverLetterButton.style.backgroundColor = "#28a745";
-generateCoverLetterButton.style.color = "#ffffff";
-generateCoverLetterButton.style.border = "none";
-generateCoverLetterButton.style.borderRadius = "5px";
-generateCoverLetterButton.style.cursor = "pointer";
-
-document.body.appendChild(generateCoverLetterButton);
-
-generateCoverLetterButton.addEventListener("click", () => {
-  const jobTitle = document.querySelector("input[name='jobTitle']")?.value || "Job Title Not Found";
-  const companyName = document.querySelector("input[name='companyName']")?.value || "Company Name Not Found";
-
-  chrome.runtime.sendMessage(
-    { action: "generateCoverLetter", jobTitle, companyName },
-    (response) => {
-      if (chrome.runtime.lastError) {
-        console.error("Error generating cover letter:", chrome.runtime.lastError.message);
-      } else if (response && response.coverLetter) {
-        alert("Generated Cover Letter:\n" + response.coverLetter);
-      }
-    }
-  );
-});

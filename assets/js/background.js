@@ -13,20 +13,20 @@
 // });
 
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-  if (message.action === "saveLinkedInData") {
-      // Save LinkedIn data to Chrome Storage
-      chrome.storage.local.set({ LinkedInData: message.data }, () => {
-          sendResponse({ status: "success", message: "LinkedIn data saved successfully!" });
-      });
-  } else if (message.action === "saveApplication") {
-      // Save job application data to Chrome Storage
-      chrome.storage.local.get({ applications: [] }, (data) => {
-          const applications = data.applications;
-          applications.push(message.data);
-          chrome.storage.local.set({ applications }, () => {
-              sendResponse({ status: "success", message: "Application data saved successfully!" });
-          });
-      });
-  }
-  return true; // Keep the message channel open for async response
+    if (message.action === "saveLinkedInData") {
+        // Save LinkedIn data to Chrome Storage
+        chrome.storage.local.set({ LinkedInData: message.data }, () => {
+            sendResponse({ status: "success", message: "LinkedIn data saved successfully!" });
+        });
+    } else if (message.action === "saveApplication") {
+        // Save job application data to Chrome Storage
+        chrome.storage.local.get({ applications: [] }, (data) => {
+            const applications = data.applications;
+            applications.push(message.data);
+            chrome.storage.local.set({ applications }, () => {
+                sendResponse({ status: "success", message: "Application data saved successfully!" });
+            });
+        });
+    }
+    return true; // Keep the message channel open for async response
 });
