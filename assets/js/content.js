@@ -20,72 +20,85 @@ if (window.location.href.includes("linkedin.com/in")) {
   document.body.appendChild(grabDataButton);
 
   // Event listener for button click
-  grabDataButton.addEventListener("click", () => {
+  grabDataButton.addEventListener("click", async () => {
+
+    //TODO API CALL
+    // const apiUrl = "http://localhost:3000/scrape";
+    // const profileUrl = window.location.href;
+
+    // try {
+    //   const response = await fetch(`${apiUrl}?url=${encodeURIComponent(profileUrl)}`, {
+    //     method: "GET",
+    //   });
+
+    //   if (!response.ok) {
+    //     throw new Error(`HTTP error! status: ${response.status}`);
+    //   }
+
+    //   const { data } = await response.json();
+    //   console.log("Scraped Data:", data);
+
+    //   alert(`Name: ${data.name}\nHeadline: ${data.headline}`);
+    // } catch (error) {
+    //   console.error("Error fetching data:", error);
+    // }
+
+
+    //TODO Web scrap from here
     // Example of grabbing data from a LinkedIn profile
-    let profileData = {};
+    //   let profileData = {};
 
-    // Assume we're on a LinkedIn profile page and start extracting data
-    profileData.name = (document.querySelector(".text-heading-xlarge").innerText).split(" ")[0];
-    profileData.surname = (document.querySelector(".text-heading-xlarge").innerText).split(" ")[1];
-    profileData.headline = document.querySelector(".text-body-medium").innerText;
-    profileData.location = document.querySelector(".text-body-small.inline.t-black--light.break-words").innerText;
+    //   // Assume we're on a LinkedIn profile page and start extracting data
+    //   profileData.name = (document.querySelector(".text-heading-xlarge").innerText).split(" ")[0];
+    //   profileData.surname = (document.querySelector(".text-heading-xlarge").innerText).split(" ")[1];
+    //   profileData.headline = document.querySelector(".text-body-medium").innerText;
+    //   profileData.location = document.querySelector(".text-body-small.inline.t-black--light.break-words").innerText;
 
-    // If you need to extract more specific data, add selectors here
-    // profileData.experience = ... 
-    console.log(profileData)
+    //   // If you need to extract more specific data, add selectors here
+    //   // profileData.experience = ... 
+    //   console.log(profileData)
 
-    try {
-      chrome.runtime.sendMessage({ action: "saveLinkedInData", data: profileData }, (response) => {
-        if (chrome.runtime.lastError) {
-          console.error("Error sending message:", chrome.runtime.lastError.message);
-        } else {
-          console.log("Data sent to extension:", response);
-          alert('Data sent to extension.');
-        }
-      });
-    } catch (error) {
-      console.error("Error in sending message:", error);
-    }
+    //   try {
+    //     chrome.runtime.sendMessage({ action: "saveLinkedInData", data: profileData }, (response) => {
+    //       if (chrome.runtime.lastError) {
+    //         console.error("Error sending message:", chrome.runtime.lastError.message);
+    //       } else {
+    //         console.log("Data sent to extension:", response);
+    //         alert('Data sent to extension.');
+    //       }
+    //     });
+    //   } catch (error) {
+    //     console.error("Error in sending message:", error);
+    //   }
 
   });
 }
 
 
-// Auto-Fill Functionality (Added Below)
-
 // Listen for messages from the popup or background script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
   if (message.action === "fillForm") {
-    const { profileData, defaultFields } = message;
-    fillWebsiteForm(profileData, defaultFields);
+    const { profileData, fieldMapping } = message;
+    fillWebsiteForm(profileData, fieldMapping);
     sendResponse({ success: true });
   }
 });
 
 // Function to fill the form
-function fillWebsiteForm(profileData, defaultFields) {
-  function normalizeFieldName(fieldName) {
-    return fieldName?.replace(/[-_]/g, "").toLowerCase() || "";
-  }
-
+function fillWebsiteForm(profileData, fieldMapping) {
   const inputs = document.querySelectorAll("input, textarea, select");
 
   inputs.forEach((input) => {
-    const fieldName = normalizeFieldName(input.name || input.id || input.placeholder);
-
-    const matchedKey = Object.keys(profileData).find(
-      (key) => normalizeFieldName(key) === fieldName
+    const fieldName = input.name || input.id || input.placeholder;
+    console.log('fieldName', fieldName)
+    // Ensure fieldMapping[key] is defined
+    const mappedKey = Object.keys(fieldMapping).find(
+      (key) => (fieldMapping[key] || []).includes(fieldName)
     );
 
-    const matchedDefaultField = !matchedKey
-      ? defaultFields.find((field) => normalizeFieldName(field.id) === fieldName)
-      : null;
+    const valueToSet = mappedKey ? profileData[mappedKey] : null;
 
-    const valueToSet = matchedKey
-      ? profileData[matchedKey]
-      : matchedDefaultField
-        ? profileData[matchedDefaultField.id]
-        : null;
+    console.log('valueToSet', valueToSet)
 
     if (valueToSet !== null && valueToSet !== undefined) {
       if (input.tagName === "SELECT") {
@@ -94,6 +107,8 @@ function fillWebsiteForm(profileData, defaultFields) {
       } else {
         input.value = valueToSet;
       }
+    } else {
+      console.warn(`No matching value found for input:`, input);
     }
   });
 

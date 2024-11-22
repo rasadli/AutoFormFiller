@@ -9,11 +9,27 @@ const defaultFields = [
   { label: "Citizenship Status", type: "select", id: "citizenship-status", options: ["Citizen", "Permanent Resident", "Visa Holder"] },
   { label: "State/Province", type: "text", id: "state" },
   { label: "Date of Birth", type: "date", id: "date-of-birth" },
-  { label: "Resume Upload", type: "file", id: "resume-upload", accept: ".pdf,.doc,.docx" },
+  // { label: "Resume Upload", type: "file", id: "resume-upload", accept: ".pdf,.doc,.docx" },
   { label: "Languages Spoken", type: "textarea", id: "languages-spoken" },
   { label: "Why Do You Want This Job?", type: "textarea", id: "job-motivation" },
   { label: "Achievements and Awards", type: "textarea", id: "achievements" },
 ];
+
+const fieldMapping = {
+  "first-name": ["firstname", "first_name", "name", "givenname", "first"],
+  "last-name": ["lastname", "last_name", "surname", "familyname", "secondname"],
+  "email-address": ["email", "email_address", "emailaddress"],
+  "phone-number": ["phone", "phone_number", "phonenumber", "contact"],
+  "date-of-birth": ["dob", "dateofbirth", "birthdate", "birthday"],
+  "street-address": ["address", "street", "street_address", "streetaddress"],
+  "state": ["state", "region", "province"],
+  "city": ["city", "town", "location"],
+  "languages-spoken": ["languages", "languages_spoken", "spoken_languages"],
+  "achievements": ["achievements", "accomplishments", "awards"],
+  "job-motivation": ["motivation", "job_motivation", "career_goals"],
+};
+
+
 
 const removedFields = [];
 const jobApplicationForm = document.getElementById('job-application-form');
@@ -195,6 +211,9 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
+// Add Auto-Fill button to trigger this functionality
+document.getElementById("auto-fill-btn").addEventListener("click", autoFillForm);
+
 // Function to auto-fill the website's form with the selected profile's data
 function autoFillForm() {
   // Get the selected profile
@@ -214,35 +233,24 @@ function autoFillForm() {
     return;
   }
 
-  // Use a content script to fill the form on the active website
+  // Send a message to the content script to fill the form
   chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-    chrome.scripting.executeScript({
-      target: { tabId: tabs[0].id },
-      func: fillWebsiteForm,
-      args: [profileData],
-    });
+    chrome.tabs.sendMessage(
+      tabs[0].id,
+      { action: "fillForm", profileData: profileData, fieldMapping: fieldMapping },
+      (response) => {
+        console.log(response);
+
+        if (response?.success) {
+          console.log("Form successfully auto-filled!");
+        } else {
+          console.error("Failed to auto-fill the form.");
+        }
+      }
+    );
   });
 }
 
-// Content script function to fill the form on the current website
-function fillWebsiteForm(profileData) {
-  // Find all form fields on the website
-  const inputs = document.querySelectorAll("input, textarea, select");
-
-  inputs.forEach((input) => {
-    const fieldName = input.name || input.id || input.placeholder;
-
-    // Match and fill fields with the saved profile data
-    if (fieldName && profileData[fieldName]) {
-      input.value = profileData[fieldName];
-    }
-  });
-
-  alert("Form auto-filled with your profile data!");
-}
-
-// Add Auto-Fill button to trigger this functionality
-document.getElementById("auto-fill-btn").addEventListener("click", autoFillForm);
 
 // Generate Cover Letter 
 async function run() {
