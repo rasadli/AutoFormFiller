@@ -259,6 +259,66 @@ async function run() {
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
   const prompt = "Explain how AI works";
 
+// *Create a professional and engaging cover letter tailored for [Job Title] at [Company Name]. Use the following details to craft the content:*
+
+// Header:
+
+// Include my personal details (name, address, phone, email) at the top.
+// Add the recipient details (hiring manager name, title, company name, address).
+// Insert the current date.
+// Introduction:
+
+// Address the hiring manager by name (or use “Dear Hiring Manager” if the name is unknown).
+// Introduce me as a [Your Degree/Current Job Title] and mention the job I’m applying for.
+// Share why I’m excited about this opportunity and how I discovered the role.
+// Body:
+
+// Highlight my educational background (e.g., [Degree, Institution]) and how it prepares me for this role.
+// Discuss relevant experiences ([Internship/Work Experience Details]) and specific achievements that align with the job description.
+// Showcase key technical and soft skills ([e.g., programming, communication, leadership]) and their relevance to the position.
+// Mention any significant projects, awards, or activities that demonstrate my qualifications.
+// Conclusion:
+
+// Reaffirm my enthusiasm for the role and the company.
+// Mention my eagerness to contribute and grow with the team.
+// Request an opportunity for an interview to discuss how my skills align with the company’s needs.
+// Closing:
+
+// Use a professional sign-off (e.g., “Sincerely”).
+// Include my full name below the closing.
+// Formatting Instructions:
+
+// Keep the cover letter concise and limited to one page.
+// Use a professional tone with clear and engaging language.
+// Ensure smooth transitions between sections for readability.
+
+// Note: No need to include :  [Platform where job posting is found]
+
+// data will be used:
+// [Name] - John Smith
+// [Address] - 45 Elm Street, Seattle, WA
+// [Phone Number] - +1 (206) 123-4567
+// [Email Address] - johnsmith@example.com
+// [Date] - 11/22/2024
+// [Hiring Manager Name] - Sarah Johnson
+// [Hiring Manager Title] - Cybersecurity Director
+// [Company Name] - SecureNet Solutions
+// [Company Address] - 789 Pine Avenue, San Francisco, CA
+// [Job Title] - Associate Cybersecurity Analyst
+// [Degree/Field of Study] - Bachelor’s in Computer Science
+// [University Name] - University of Washington
+// [Relevant Skills/Field] - Vulnerability Assessment, Network Security, Incident Response
+// [Industry/Field] - Cybersecurity and IT Services
+// [Internship/Work Experience] - Security Analyst Intern at TechShield Inc.
+// [Key Skill/Responsibility] - Conducted penetration tests on web applications to identify potential exploits
+// [Specific Achievement] - Reduced company-wide vulnerability exposure by 30% through proactive security measures
+// [Relevant Training/Project] - Completed a Certified Ethical Hacker (CEH) course, focusing on ethical hacking techniques and secure coding practices
+// [Technical Skill] - Skilled in Python, Wireshark, Metasploit, and Splunk
+// [Relevant Soft Skill] - Analytical thinking, adaptability, and effective team collaboration
+
+
+
+
   let retries = 3; // Number of retries
   let delay = 5000; // Delay between retries in milliseconds
 
