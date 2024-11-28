@@ -1,63 +1,119 @@
-// const applicationData = [
-//     { company: 'Google', title: 'Software Engineer', date: '2024-11-01', status: 'Applied' },
-//     { company: 'Amazon', title: 'Data Analyst', date: '2024-10-15', status: 'Interview Scheduled' },
-//     { company: 'Facebook', title: 'Product Manager', date: '2024-10-05', status: 'Rejected' }
-// ];
+document.addEventListener('DOMContentLoaded', function () {
+    // Retrieve the job data from Chrome local storage
+    chrome.storage.local.get(['jobs'], function (result) {
+        const jobs = result.jobs || []; // Get the jobs array, or an empty array if no data exists
 
-// function loadDashboardData() {
-//     const tableBody = document.getElementById('applications-table-body');
-//     applicationData.forEach(app => {
-//         const row = document.createElement('tr');
-//         row.innerHTML = `
-//             <td>${app.company}</td>
-//             <td>${app.title}</td>
-//             <td>${app.date}</td>
-//             <td>${app.status}</td>
-//         `;
-//         tableBody.appendChild(row);
-//     });
-// }
-// loadDashboardData()
+        // Get the table body element where rows will be inserted
+        const tableBody = document.getElementById('applications-table-body');
 
+        // Clear existing rows before adding new ones
+        tableBody.innerHTML = '';
 
-function loadDashboardData() {
-    const tableBody = document.getElementById("applications-table-body");
+        // If there are no jobs, show a message
+        if (jobs.length === 0) {
+            const noDataRow = document.createElement('tr');
+            const noDataCell = document.createElement('td');
+            noDataCell.setAttribute('colspan', '5');
+            noDataCell.textContent = 'No applications found.';
+            noDataRow.appendChild(noDataCell);
+            tableBody.appendChild(noDataRow);
+            return;
+        }
 
-    // Fetch applications from Chrome Storage
-    chrome.storage.local.get({ applications: [] }, (data) => {
-        tableBody.innerHTML = ""; // Clear existing rows
-        data.applications.forEach((app) => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td>${app.company || "N/A"}</td>
-                <td>${app.title || "N/A"}</td>
-                <td>${app.date || "N/A"}</td>
-                <td>${app.status || "N/A"}</td>
-            `;
+        // Loop through each job and create a table row
+        jobs.forEach((job, index) => {
+            const row = document.createElement('tr');
+
+            // Create a cell for the company/job title
+            const titleCell = document.createElement('td');
+            titleCell.textContent = job.title;
+            row.appendChild(titleCell);
+
+            // Create a cell for the website URL
+            const urlCell = document.createElement('td');
+            const urlLink = document.createElement('a');
+            urlLink.href = job.url;
+            urlLink.textContent = job.url;
+            urlCell.appendChild(urlLink);
+            row.appendChild(urlCell);
+
+            // Create a cell for the date applied
+            const dateCell = document.createElement('td');
+            dateCell.textContent = job.date;
+            row.appendChild(dateCell);
+
+            // Create a cell for the job status
+            const statusCell = document.createElement('td');
+            statusCell.textContent = job.status;
+            row.appendChild(statusCell);
+
+            // Create a cell for the operations (Update/Delete)
+            const operationsCell = document.createElement('td');
+
+            // Create an Update button
+            const updateBtn = document.createElement('button');
+            updateBtn.classList.add('update-btn');
+            updateBtn.textContent = 'Update';
+            updateBtn.addEventListener('click', () => updateJobStatus(index));
+
+            // Create a Delete button
+            const deleteBtn = document.createElement('button');
+            deleteBtn.classList.add('delete-btn');
+            deleteBtn.textContent = 'Delete';
+            deleteBtn.addEventListener('click', () => deleteJob(index));
+
+            // Append buttons to the operations cell
+            operationsCell.appendChild(updateBtn);
+            operationsCell.appendChild(deleteBtn);
+            row.appendChild(operationsCell);
+
+            // Append the row to the table body
             tableBody.appendChild(row);
         });
     });
-}
-// Save a new application to Chrome Storage
-function saveNewApplication(application) {
-    chrome.storage.local.get({ applications: [] }, (data) => {
-        const updatedApplications = [...data.applications, application];
-        chrome.storage.local.set({ applications: updatedApplications }, () => {
-            console.log("Application saved successfully.");
-            loadDashboardData(); // Refresh dashboard
+});
+
+// Update the job status
+function updateJobStatus(index) {
+    // Prompt user for the new status
+    const newStatus = prompt('Enter new status for this job:', 'Pending..');
+
+    if (newStatus) {
+        // Get jobs from local storage
+        chrome.storage.local.get(['jobs'], function (result) {
+            const jobs = result.jobs || [];
+
+            // Update the status of the selected job
+            jobs[index].status = newStatus;
+
+            // Save updated jobs back to local storage
+            chrome.storage.local.set({ jobs: jobs }, function () {
+                alert('Job status updated successfully!');
+                // Reload the table after update
+                location.reload();
+            });
         });
-    });
+    }
 }
 
-// Simulate saving a new application (this can be triggered elsewhere)
-function trackNewApplication() {
-    const newApplication = {
-        company: document.title, // Use document title as company name
-       // title: "Software Engineer", /Example job title//
-        date: new Date().toISOString().split("T")[0], // Today's date
-        status: "Pending", // Default status
-    };
-    saveNewApplication(newApplication);
+// Delete a job
+function deleteJob(index) {
+    // Confirm if the user wants to delete the job
+    const confirmation = confirm('Are you sure you want to delete this job?');
+    if (confirmation) {
+        // Get jobs from local storage
+        chrome.storage.local.get(['jobs'], function (result) {
+            const jobs = result.jobs || [];
+
+            // Remove the selected job
+            jobs.splice(index, 1);
+
+            // Save updated jobs back to local storage
+            chrome.storage.local.set({ jobs: jobs }, function () {
+                alert('Job deleted successfully!');
+                // Reload the table after deletion
+                location.reload();
+            });
+        });
+    }
 }
-// Load data on page load
-document.addEventListener("DOMContentLoaded", loadDashboardData);

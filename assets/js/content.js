@@ -209,9 +209,11 @@ function fillWebsiteForm(profileData, fieldMapping) {
         input.dispatchEvent(new Event("change"));
       } else {
         input.value = valueToSet;
+        input.dispatchEvent(new Event("input", { bubbles: true }));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
       }
     } else {
-      console.warn(`No matching value found for input:`, input);
+      console.log(`No matching value found for input:`, input);
     }
   });
 
@@ -306,3 +308,50 @@ if (savedData) {
   })
 }
 
+
+function formatDate(date) {
+  const day = String(date.getDate()).padStart(2, '0');   // Ensure two digits
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+  const year = date.getFullYear();
+  const hours = String(date.getHours()).padStart(2, '0');
+  const minutes = String(date.getMinutes()).padStart(2, '0');
+
+  return `${day}.${month}.${year} ${hours}:${minutes}`;
+}
+
+const applyBtn = document.querySelector('button[type="submit"]');
+if (applyBtn) {
+  applyBtn.addEventListener('click', function (event) {
+    event.preventDefault();  // Ensure the form doesn't actually submit
+
+    console.log("Application submitted");
+
+    const title = document.querySelector('title').textContent;
+    const date = formatDate(new Date());
+    const url = window.location.href;
+
+    const jobData = {
+      title: title,
+      url: url,
+      date: date,
+      status: "Pending.."
+    };
+
+    // Log the new job data to the console
+    console.log(jobData);
+
+    // Retrieve existing job data from local storage
+    chrome.storage.local.get(['jobs'], function (result) {
+      let jobs = result.jobs || []; // Default to an empty array if no jobs exist
+
+      // Add the new job to the jobs array
+      jobs.push(jobData);
+
+      // Save the updated jobs array back to local storage
+      chrome.storage.local.set({ jobs: jobs }, function () {
+        console.log("Job data saved to local storage");
+      });
+    });
+
+  });
+}

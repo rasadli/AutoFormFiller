@@ -33,3 +33,55 @@ body {
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
+
+/* Style for the Update and Delete buttons */
+
+#dashboard-section th,td{
+    font-size: 14px;
+}
+
+#dashboard-section table td:last-child{
+    display: flex;
+}
+
+#dashboard-section button {
+    padding: 6px 8px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-right: 10px;
+}
+
+#dashboard-section button.update-btn {
+    background-color: #4caf50;
+    /* Green */
+    color: white;
+}
+
+#dashboard-section button.update-btn:hover {
+    background-color: #45a049;
+    /* Darker green on hover */
+}
+
+#dashboard-section button.delete-btn {
+    background-color: #f44336;
+    /* Red */
+    color: white;
+}
+
+#dashboard-section button.delete-btn:hover {
+    background-color: #e53935;
+    /* Darker red on hover */
+}
+
+#dashboard-section button:focus {
+    outline: none;
+}
+
+#dashboard-section button:active {
+    transform: scale(0.98);
+    /* Small effect when clicked */
+}
