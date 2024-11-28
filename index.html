@@ -17,99 +17,77 @@
 
 <body>
 
-    <div class="container my-4">
+    <div class="container my-5">
 
-        <!-- <h1>Apify Fetcher</h1>
-        <input type="text" id="usernameInput" placeholder="Enter username" />
-        <button id="fetchButton">Fetch Data</button>
-        <pre id="results"></pre> -->
+        <h3 class="mb-4 text-center text-primary">Auto Form Filler</h3>
 
-        <h3 class="mb-2">Auto Form Filler</h3>
-
-
-        <div class="btn-toolbar mb-4" role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-toolbar mb-5" role="toolbar" aria-label="Toolbar with button groups">
             <div class="w-100 btn-group mr-2 d-flex justify-content-between" role="group">
                 <a href="/index.html" id="main-btn" class="btn btn-success">User Info</a>
                 <a href="/pages/dashboard.html" id="dashboard-btn" class="btn btn-primary">Applications</a>
-                <!-- <button id="extract-btn" class="btn btn-secondary">Extract LinkedIn</button> -->
                 <a id="export-btn" class="btn btn-info">Export</a>
                 <a id="import-btn" class="btn btn-warning">Import</a>
                 <input type="file" id="file-input" style="display:none;" accept=".json" />
             </div>
         </div>
 
-
-
         <!-- Form for user input -->
-        <div class="mb-3">
-            <label for="userProfileURL" class="form-label">Enter Profile URL</label>
-            <input type="text" id="userProfileURL" class="form-control" placeholder="Enter profile URL" />
-        </div>
+        <div class="card shadow-sm p-4 mb-4">
+            <h4 class="card-title mb-3">Profile URL Input</h4>
+            <div class="form-group">
+                <label for="userProfileURL" class="form-label">Enter Profile URL</label>
+                <input type="text" id="userProfileURL" class="form-control" placeholder="Enter profile URL" />
+            </div>
 
-        <!-- Fetch Data Button -->
-        <div class="d-flex mb-3">
-            <button id="fetchButton" class="btn btn-primary">Fetch Data</button>
-        </div>
-
-        <!-- Use Fetched Data Button (Initially hidden) -->
-        <div class="d-flex justify-content-center mb-3">
-            <button id="useFetchedData" class="btn btn-success d-none">Use Fetched Data</button>
+            <div class="d-flex justify-content-between mt-3">
+                <button id="fetchButton" class="btn btn-primary">Fetch Data</button>
+                <button id="useFetchedData" class="btn btn-success d-none">Use Fetched Data</button>
+            </div>
         </div>
 
         <!-- Results container -->
-        <div class="mt-3">
+        <div class="card shadow-sm p-4 mb-4">
+            <h4 class="card-title mb-3">Results</h4>
             <pre id="results" class="border p-3 bg-light"></pre>
         </div>
 
         <!-- Profile Selection -->
-        <div class="form-group mb-4">
-            <label for="profile-select">Choose Profile</label>
-            <select id="profile-select" class="form-control">
+        <div class="card shadow-sm p-4 mb-4">
+            <h4 class="card-title mb-3">Choose Profile</h4>
+            <select id="profile-select" class="form-control mb-3">
                 <option value="0" disabled selected>Select Profile</option>
             </select>
-            <button id="add-profile-btn" class="btn btn-primary mt-2">Add New Profile</button>
+            <button id="add-profile-btn" class="btn btn-primary">Add New Profile</button>
         </div>
 
-        <div class="my-4">
-            <h4>Auto-Fill </h4>
+        <!-- Auto-Fill Section -->
+        <div class="card shadow-sm p-4 mb-4">
+            <h4 class="card-title mb-3">Auto-Fill Job Application</h4>
             <p>Use this button to automatically fill the job application form with the selected profile data.</p>
             <button id="auto-fill-btn" class="btn btn-primary">Auto-Fill Form</button>
         </div>
 
-        <!-- Cover Letter Generation Section -->
-        <div class="mt-4">
-            <h4>Generate Cover Letter</h4>
+        <!-- Cover Letter Section -->
+        <div class="card shadow-sm p-4 mb-4">
+            <h4 class="card-title mb-3">Generate Cover Letter</h4>
             <p>Click the button below to generate a tailored cover letter based on your selected profile data.</p>
             <button id="generate-cover-letter-btn" class="btn btn-secondary">Generate Cover Letter</button>
 
-            <!-- Textarea for Cover Letter Output -->
             <textarea id="cover-letter-output" class="form-control mt-3" rows="8"
                 placeholder="Generated cover letter will appear here..." readonly></textarea>
 
             <!-- Pre element for logs (what is going on) -->
             <pre id="cover-letter-log"></pre>
+
         </div>
 
-        <h4>Personal Information Form</h4>
-        <form id="job-application-form">
-
-        </form>
-
-        <button type="submit" class="btn btn-success mt-4" form="job-application-form" id="save_data">Save
-            Profile</button>
-
-        <!-- <div class="mt-3">
-            <h4>Removed Fields</h4>
-            <select id="removed-fields" class="form-control">
-                <option value="" disabled selected>Select a field to re-add</option>
-            </select>
-            <button id="readd-field-btn" class="btn btn-secondary mt-2">Re-add Selected Field</button>
-        </div> -->
-
-        <!-- Add custom field -->
-        <!-- <div class="mt-3">
-            <button id="add-custom-field-btn" class="btn btn-primary">Add Custom Field</button>
-        </div> -->
+        <!-- Personal Information Form -->
+        <div class="card shadow-sm p-4 mb-4">
+            <h4 class="card-title mb-3">Personal Information Form</h4>
+            <form id="job-application-form"></form>
+            <button type="submit" class="btn btn-success mt-4" form="job-application-form" id="save_data">Save
+                Profile</button>
+        </div>
 
     </div>
 

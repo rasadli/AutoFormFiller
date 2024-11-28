@@ -272,9 +272,9 @@ async function runAI() {
 
   document.getElementById('generate-cover-letter-btn')
   const genAI = new window.GoogleGenerativeAI(
-    "AIzaSyASGdeh-E1vHPAe22-HztjHPViuHT1kEuI"
+    "AIzaSyAyHdRl-zfLxZjhjnSsq7p9TnEbPF_obdE"
   );
-  const model = genAI.getGenerativeModel({ model: "gemini-1.5-pro" });
+  const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
   const selectedProfile = profileSelect.value;
 
@@ -357,7 +357,7 @@ Data will be used:
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       console.log(`Attempt ${attempt}...`);
-      const result = await model.generateContent(prompt);
+      const result = await model.generateContent(prompt); 
       console.log("Generated Response:", result.response.text());
       document.getElementById("cover-letter-output").value =
         result.response.text();

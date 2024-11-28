@@ -5,46 +5,182 @@
     box-sizing: border-box;
 }
 
-html {
-    width: 700px;
-    height: 500px;
-}
-
+/* Body and General Styling */
 body {
     font-family: 'Inter', sans-serif;
     background-color: #f5f5f5;
     padding: 20px;
+    color: #333;
+    width: 700px;
+    height: 500px;
 }
 
-.extension-container {
-    max-width: 600px;
-    margin: auto;
-    background-color: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 20px;
-}
-
-.form-container {
-    max-width: 600px;
+.container {
+    max-width: 1200px;
     margin: 0 auto;
-    padding: 20px;
-    background-color: #f9f9f9;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-
-/* Style for the Update and Delete buttons */
-
-#dashboard-section th,td{
+/* Button Styles */
+.btn {
+    border-radius: 5px;
+    transition: all 0.3s ease;
     font-size: 14px;
 }
 
-#dashboard-section table td:last-child{
-    display: flex;
+.btn:hover {
+    transform: scale(1.05);
 }
 
+/* Button color enhancements */
+#dashboard-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+#dashboard-btn:hover {
+    background-color: #0056b3;
+}
+
+#main-btn {
+    background-color: #28a745;
+    color: white;
+}
+
+#main-btn:hover {
+    background-color: #218838;
+}
+
+#export-btn {
+    background-color: #17a2b8;
+    color: white;
+}
+
+#export-btn:hover {
+    background-color: #138496;
+}
+
+#import-btn {
+    background-color: #ffc107;
+    color: white;
+}
+
+#import-btn:hover {
+    background-color: #e0a800;
+}
+
+/* Header and Table Section */
+#dashboard-section {
+    margin-top: 40px;
+}
+
+h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+table {
+    width: 100%;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+th {
+    background-color: #f1f1f1;
+    font-weight: bold;
+    text-align: left;
+    padding: 12px;
+    color: #333;
+}
+
+td {
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+    border-bottom: 1px solid #ddd;
+}
+
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* tr:hover {
+    background-color: #e9ecef;
+} */
+
+/* Table Action Buttons */
+button {
+    padding: 8px 12px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+button.update-btn {
+    background-color: #4caf50;
+    color: white;
+}
+
+button.update-btn:hover {
+    background-color: #45a049;
+}
+
+button.delete-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+button.delete-btn:hover {
+    background-color: #e53935;
+}
+
+button:focus {
+    outline: none;
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* Responsive Table */
+@media (max-width: 768px) {
+    .table-responsive {
+        overflow-x: auto;
+    }
+}
+
+/* Mobile-First Section Styling */
+@media (max-width: 576px) {
+    #dashboard-section h3 {
+        font-size: 20px;
+    }
+
+    .btn-toolbar {
+        flex-direction: column;
+    }
+
+    .btn-toolbar .btn {
+        margin-bottom: 10px;
+    }
+}
+
+/* Table Customization for Last Column Flex */
+#dashboard-section table td:last-child {
+    display: flex;
+    justify-content: space-between;
+}
+
+/* Table and Button General Font */
+#dashboard-section th,
+td {
+    font-size: 14px;
+}
+
+/* Buttons inside Dashboard Section */
 #dashboard-section button {
     padding: 6px 8px;
     font-size: 14px;
@@ -55,6 +191,7 @@ body {
     margin-right: 10px;
 }
 
+/* Update Button */
 #dashboard-section button.update-btn {
     background-color: #4caf50;
     /* Green */
@@ -66,6 +203,7 @@ body {
     /* Darker green on hover */
 }
 
+/* Delete Button */
 #dashboard-section button.delete-btn {
     background-color: #f44336;
     /* Red */
@@ -77,6 +215,7 @@ body {
     /* Darker red on hover */
 }
 
+/* Focus and Active States for Buttons */
 #dashboard-section button:focus {
     outline: none;
 }
