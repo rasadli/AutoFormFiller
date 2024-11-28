@@ -18,6 +18,34 @@
 <body>
 
     <div class="container my-4">
+        
+        <!-- <h1>Apify Fetcher</h1>
+        <input type="text" id="usernameInput" placeholder="Enter username" />
+        <button id="fetchButton">Fetch Data</button>
+        <pre id="results"></pre> -->
+        
+        <h1 class="text-center mb-4">Linkedin Fetcher</h1>
+        
+        <!-- Form for user input -->
+        <div class="mb-3">
+            <label for="userProfileURL" class="form-label">Enter Profile URL</label>
+            <input type="text" id="userProfileURL" class="form-control" placeholder="Enter profile URL" />
+        </div>
+        
+        <!-- Fetch Data Button -->
+        <div class="d-flex justify-content-center mb-3">
+            <button id="fetchButton" class="btn btn-primary">Fetch Data</button>
+        </div>
+        
+        <!-- Use Fetched Data Button (Initially hidden) -->
+        <div class="d-flex justify-content-center mb-3">
+            <button id="useFetchedData" class="btn btn-success d-none">Use Fetched Data</button>
+        </div>
+        
+        <!-- Results container -->
+        <div class="mt-3">
+            <pre id="results" class="border p-3 bg-light"></pre>
+        </div>
 
         <div class="btn-toolbar mb-4" role="toolbar" aria-label="Toolbar with button groups">
             <div class="w-100 btn-group mr-2 d-flex justify-content-between" role="group">
@@ -26,6 +54,7 @@
                 <!-- <button id="extract-btn" class="btn btn-secondary">Extract LinkedIn</button> -->
                 <a id="export-btn" class="btn btn-info">Export</a>
                 <a id="import-btn" class="btn btn-warning">Import</a>
+                <input type="file" id="file-input" style="display:none;" accept=".json" />
             </div>
         </div>
 
@@ -47,27 +76,33 @@
         <form id="job-application-form">
 
         </form>
-        <button type="submit" class="btn btn-success mt-4" form="job-application-form" id="save_data">Submit Application</button>
+        
+        <button type="submit" class="btn btn-success mt-4" form="job-application-form" id="save_data">Save Profile</button>
 
-        <div class="mt-3">
+        <!-- <div class="mt-3">
             <h4>Removed Fields</h4>
             <select id="removed-fields" class="form-control">
                 <option value="" disabled selected>Select a field to re-add</option>
             </select>
             <button id="readd-field-btn" class="btn btn-secondary mt-2">Re-add Selected Field</button>
-        </div>
+        </div> -->
 
         <!-- Add custom field -->
-        <div class="mt-3">
+        <!-- <div class="mt-3">
             <button id="add-custom-field-btn" class="btn btn-primary">Add Custom Field</button>
-        </div>
+        </div> -->
 
         <!-- Cover Letter Generation Section -->
         <div class="mt-4">
             <h4>Generate Cover Letter</h4>
             <p>Click the button below to generate a tailored cover letter based on your selected profile data.</p>
             <button id="generate-cover-letter-btn" class="btn btn-secondary">Generate Cover Letter</button>
+            
+            <!-- Textarea for Cover Letter Output -->
             <textarea id="cover-letter-output" class="form-control mt-3" rows="8" placeholder="Generated cover letter will appear here..." readonly></textarea>
+
+            <!-- Pre element for logs (what is going on) -->
+            <pre id="cover-letter-log"></pre>
         </div>
 
     </div>
