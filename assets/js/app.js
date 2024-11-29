@@ -30,7 +30,6 @@ const fieldMapping = {
   "country": ["country", "nation", "region", "location", "province"],
   "date-of-birth": ["dob", "dateofbirth", "birthdate", "birthday"],
   "languages-spoken": ["languages", "languages_spoken", "spoken_languages"],
-  "job-motivation": ["motivation", "job_motivation", "career_goals", "job_reason"],
   "achievements": ["achievements", "accomplishments", "awards", "honors"],
   "experiences": ["experience", "experiences", "work_experience", "job_experience"],
   "education": ["educations", "studies", "academic_experience"],
