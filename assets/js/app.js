@@ -77,66 +77,16 @@ function renderField(field) {
   input.className = 'form-control';
   input.name = field.id;
 
-  // Create remove button
-  const deleteBtn = document.createElement('button');
-  deleteBtn.className = 'btn btn-danger';
-  deleteBtn.textContent = 'Remove';
-  deleteBtn.onclick = (e) => {
-    e.preventDefault();
-    removeField(field, formGroup);
-  };
-
-  // Append label, input, and delete button to the input group
+  // Append label, input to the input group
   inputGroupDiv.appendChild(input);
-  //?remove btn
-  // inputGroupDiv.appendChild(deleteBtn);
+
   formGroup.appendChild(label);
   formGroup.appendChild(inputGroupDiv);
 
   jobApplicationForm.appendChild(formGroup);
 }
 
-// Function to remove a field
-function removeField(field, formGroup) {
-  jobApplicationForm.removeChild(formGroup);
-  removedFields.push(field);
-  updateRemovedFieldsSelect();
-}
 
-// Function to re-add a removed field
-function reAddField() {
-  const selectedFieldId = removedFieldsSelect.value;
-  const fieldIndex = removedFields.findIndex(f => f.id === selectedFieldId);
-  if (fieldIndex !== -1) {
-    const field = removedFields.splice(fieldIndex, 1)[0];
-    renderField(field);
-    updateRemovedFieldsSelect();
-  }
-}
-
-// Function to update the removed fields select
-function updateRemovedFieldsSelect() {
-  removedFieldsSelect.innerHTML = `<option value="" disabled selected>Select a field to re-add</option>`;
-  removedFields.forEach(field => {
-    const option = document.createElement('option');
-    option.value = field.id;
-    option.textContent = field.label;
-    removedFieldsSelect.appendChild(option);
-  });
-}
-
-// Function to add a custom field
-function addCustomField() {
-  const label = prompt("Enter the field label:");
-  if (label) {
-    const fieldType = prompt("Enter the field type (text, email, date, etc.):");
-    if (fieldType) {
-      const fieldId = label.toLowerCase().replace(/ /g, '-');
-      const newField = { label, type: fieldType, id: fieldId };
-      renderField(newField);
-    }
-  }
-}
 
 // Function to load profiles from Chrome Storage
 function loadProfilesFromStorage() {
@@ -192,6 +142,54 @@ document.getElementById('add-profile-btn').addEventListener('click', () => {
     alert(`Profile "${profileName}" created!`);
   } else {
     alert("Profile name is required or already exists.");
+  }
+});
+
+// Function to delete profile
+function deleteProfile(profileName) {
+  const confirmDelete = confirm(`Are you sure you want to delete the profile "${profileName}"?`);
+  if (confirmDelete) {
+    delete profiles[profileName];
+    saveProfilesToStorage();
+    populateProfileSelect();
+    alert(`Profile "${profileName}" has been deleted.`);
+  }
+}
+
+// Function to update profile name
+function updateProfileName(profileName) {
+  const newName = prompt("Enter new profile name:", profileName);
+  if (newName && newName !== profileName && !profiles[newName]) {
+    // Save the profile with the new name
+    profiles[newName] = profiles[profileName];
+    delete profiles[profileName]; // Delete old profile name
+    saveProfilesToStorage();
+    populateProfileSelect();
+    alert(`Profile name updated to "${newName}"`);
+  } else if (newName === profileName) {
+    alert("The new name must be different from the current one.");
+  } else {
+    alert("Profile name already exists or is invalid.");
+  }
+}
+
+// Event listener to handle profile updates (rename)
+document.getElementById('update-profile-btn').addEventListener('click', () => {
+  const selectedProfile = profileSelect.value;
+  if (selectedProfile !== "0" && profiles[selectedProfile]) {
+    updateProfileName(selectedProfile);
+  } else {
+    alert("Please select a valid profile.");
+  }
+});
+
+// Event listener to handle profile deletion
+document.getElementById('delete-profile-btn').addEventListener('click', () => {
+  const selectedProfile = profileSelect.value;
+  if (selectedProfile !== "0" && profiles[selectedProfile]) {
+    deleteProfile(selectedProfile);
+  } else {
+    alert("Please select a valid profile.");
   }
 });
 
@@ -522,48 +520,6 @@ document.addEventListener('DOMContentLoaded', () => {
     alert('All possible data have been placed.')
   }
 });
-
-
-
-
-
-
-
-
-
-// document.addEventListener('DOMContentLoaded', () => {
-//   const fetchButton = document.getElementById('fetchButton');
-//   const usernameInput = document.getElementById('usernameInput');
-//   const resultContainer = document.getElementById('results');
-
-//   fetchButton.addEventListener('click', () => {
-//       const username = usernameInput.value.trim();
-
-//       if (!username) {
-//           resultContainer.textContent = 'Please enter a username.';
-//           return;
-//       }
-
-//       resultContainer.textContent = 'Fetching data...';
-
-//       // Send a message to the background script
-//       chrome.runtime.sendMessage(
-//           {
-//               action: 'fetchApifyData',
-//               username: username,
-//           },
-//           (response) => {
-//               if (response.success) {
-//                   console.log('Data received:', response.data);
-//                   resultContainer.textContent = JSON.stringify(response.data, null, 2);
-//               } else {
-//                   console.error('Error:', response.error);
-//                   resultContainer.textContent = `Error: ${response.error}`;
-//               }
-//           }
-//       );
-//   });
-// });
 
 $('#export-btn').click(function () {
   const selectedProfile = profileSelect.value;

@@ -9,8 +9,7 @@
 
     <!-- Add Bootstrap CSS -->
     <link rel="stylesheet" href="/assets/css/bootstrap.min.css">
-    <!-- Add Font CSS -->
-    <link rel="stylesheet" href="/assets/css/font.css">
+
     <!-- Add Custom CSS -->
     <link rel="stylesheet" href="/assets/css/style.css">
 </head>
@@ -57,7 +56,11 @@
             <select id="profile-select" class="form-control mb-3">
                 <option value="0" disabled selected>Select Profile</option>
             </select>
-            <button id="add-profile-btn" class="btn btn-primary">Add New Profile</button>
+            <div class="d-flex justify-content-between">
+                <button id="add-profile-btn" class="btn btn-primary">Add New Profile</button>
+                <button id="update-profile-btn" class="btn btn-success">Update Profile</button>
+                <button id="delete-profile-btn" class="btn btn-danger">Delete Profile</button>
+            </div>
         </div>
 
         <!-- Auto-Fill Section -->
