@@ -1,108 +1,114 @@
-# Chrome Extension for Auto Form Filler
-
-## Project Overview
-This project aims to create a Chrome extension that acts as an intelligent auto form filler, specifically designed to streamline job applications and other online forms. The extension will extract relevant data from the user's LinkedIn profile, allowing them to modify and store the extracted information locally. When users encounter a job application or form, the extension will automatically fill in the relevant fields or provide multiple suggestions based on the stored data. The extension also allows users to select specific fields to include or exclude, giving them complete control over the information used.
-
-## Features
-
-- **LinkedIn Data Extraction**: Automatically extract data from the user's LinkedIn profile, including:
-  - Name
-  - Contact information
-  - Experience
-  - Education
-  - Skills
-  - Certifications (optional)
-  
-- **Customizable Data Modification**: Allow users to edit the extracted data within the extension's interface before it is saved locally.
-
-- **Smart Form Filling**: Automatically recognize and fill fields in job applications or online forms based on stored data, or suggest multiple options if available.
-
-- **Field Inclusion/Exclusion Control**: Enable users to choose which fields to include or exclude during auto-filling, providing control over what information is used.
-
-- **Local Storage**: Store user data locally within the extension to maintain privacy, with no data being sent to external servers.
-
-- **Data Privacy**: Ensure that all personal data is stored securely and is not shared with any external parties.
-
-## Installation
-
-1. Clone the repository to your local machine:
-   ```bash
-   git clone https://github.com/yourusername/auto-form-filler.git
-   ```
-
-2. Open Chrome and go to `chrome://extensions/`.
-
-3. Enable **Developer mode** in the top right corner.
-
-4. Click on **Load unpacked** and select the cloned repository folder.
-
-5. The extension should now appear in your extensions list and is ready to use.
-
-## Usage
-
-1. **LinkedIn Profile Extraction**: 
-   - Navigate to LinkedIn, open the extension, and follow the prompts to extract profile information. Users will have the option to review and modify the extracted data.
-
-2. **Data Customization**:
-   - Once the data is extracted, open the extension popup to view and edit personal information, experience, education, and skills. Save the changes locally within the extension.
-
-3. **Auto Form Filling**:
-   - When filling out a job application or any online form, open the extension and select **Auto Fill**. The extension will automatically populate fields based on the stored data.
-   - Users can review suggested fields and modify data if needed. 
-
-4. **Select Fields to Include/Exclude**:
-   - Choose specific fields to include or exclude when filling out forms. For instance, users can choose to exclude certain job experiences or skill sets.
-
-5. **Privacy**:
-   - All data is stored locally within the extension and is not shared with any external parties.
-
-## Development
-
-To get started with development:
-
-1. **Prerequisites**:
-   - Make sure you have the latest version of Chrome and Node.js installed.
-
-2. **Project Structure**:
-   - **`manifest.json`**: Defines the extension's metadata and permissions.
-   - **`popup.html`**: The main user interface for data viewing and management.
-   - **`content.js`**: Handles LinkedIn profile extraction and form filling.
-   - **`background.js`**: Manages data storage and settings.
-   - **`popup.js`**: Handles user interactions within the popup UI.
-
-3. **Scripts**:
-   - **Content Script**: Injects into the LinkedIn page to scrape data and interacts with form fields.
-   - **Background Script**: Listens for form fill requests and manages stored data.
-
-## Permissions
-
-This extension requires the following permissions:
-- **Active Tab**: To interact with job application forms and LinkedIn profile data.
-- **Storage**: To store user data locally on the browser.
-  
-## Future Enhancements
-
-Potential improvements for future versions include:
-- **Multiple Profile Management**: Allow users to store and switch between multiple profiles (e.g., different job application profiles).
-- **Enhanced Data Parsing**: Improve data extraction to support more complex LinkedIn profiles and data formats.
-- **Support for Additional Platforms**: Expand support for data extraction from other job platforms or social media profiles.
-- **Customizable Auto-Fill Suggestions**: Allow users to rank preferred information, such as specific job experiences or skills, for form-filling prioritization.
-
-## Contribution Guidelines
-
-Contributions are welcome! Please fork the repository, create a feature branch, and submit a pull request. Before contributing, ensure you:
-- Write clear and concise code with comments as needed.
-- Follow the coding style of the project.
-- Test new features thoroughly before submitting.
-
-## License
-
-This project is licensed under the MIT License. See the `LICENSE` file for details.
-
-## Contact
-
-For questions or support, please reach out to the project maintainer at [your-email@example.com].
 
 ---
 
-Thank you for using the Chrome Extension for Auto Form Filler!
+# AutoFormFiller Chrome Extension
+
+## Overview
+
+**AutoFormFiller** is a Chrome extension designed to automate form-filling tasks on specified websites by fetching and utilizing user-specific data from a Node.js server. This extension communicates with the backend server to retrieve necessary data and fill out forms seamlessly.
+
+---
+
+## Features
+- Automatically fills out forms on specified web pages.
+- Fetches LinkedIn profile data or other relevant data from a Node.js server.
+- Communicates with backend servers using fetch API for real-time data retrieval.
+- Lightweight and customizable for different form structures.
+
+---
+
+## Installation
+
+### 1. Clone or Download the Repository
+- Download the repository or extract the provided `AutoFormFiller.zip` file to a directory on your local machine.
+
+### 2. Install Node.js Dependencies
+- Navigate to the Node.js server directory. For example:
+  ```bash
+  cd /path/to/your/server.js
+  ```
+- Run the following command to install the required Node.js dependencies:
+  ```bash
+  npm install
+  ```
+
+### 3. Start the Node.js Server
+- Start the Node.js server manually by running:
+  ```bash
+  node index.js
+  ```
+  > Note: This server must be running for the extension to fetch and process data.
+
+### 4. Load the Extension in Chrome
+1. Open Google Chrome and navigate to `chrome://extensions/`.
+2. Enable **Developer Mode** using the toggle switch in the top-right corner.
+3. Click **Load unpacked** and select the directory containing the extracted files of the `AutoFormFiller` extension.
+4. The extension will be loaded and activated.
+
+---
+
+## Usage
+
+1. **Open any supported web page** where the form-filling functionality is required (e.g., LinkedIn profile pages).
+2. The extension will automatically send the profile URL to the Node.js server and fetch relevant data.
+3. The form fields will be filled automatically based on the fetched data.
+
+---
+
+## Troubleshooting
+
+### **Server Not Starting**
+- Ensure Node.js is installed and properly configured on your system.
+- Check the console where the Node.js server is started for any errors.
+- Verify that the server is running by visiting `http://localhost:3000` in your browser.
+
+### **Extension Not Working**
+- Make sure the Node.js server is running before using the extension.
+- Verify the required permissions are set correctly in the `manifest.json` file.
+- Reload the extension in `chrome://extensions/` if it stops working.
+
+### **Common Issues**
+- **Permission Error:** Ensure that the `host_permissions` section in `manifest.json` allows communication with `http://localhost:3000/`.
+- **Service Worker Registration Error:** Ensure the `background.js` script is valid for Manifest V3 and follows Chrome extension guidelines.
+
+---
+
+## File Structure
+
+```
+AutoFormFiller/
+├── assets/
+│   ├── css/
+│   │   ├── bootstrap.min.css    # Minified Bootstrap CSS for responsive layout and basic styling
+│   │   └── style.css            # Custom CSS for additional styling specific to the extension
+│   ├── images/
+│   │   └── main_logo.png        # Extension's logo image
+│   ├── js/
+│   │   ├── app.js               # Main JavaScript file for extension's background tasks
+│   │   ├── background.js        # Service worker script for handling background processes
+│   │   ├── bootstrap.min.js     # Bootstrap JS file for popup and UI interactions
+│   │   ├── content.js           # Content script for interacting with web pages
+│   │   ├── dashboard.js         # JS for dashboard page (if applicable)
+│   │   ├── generative-ai.js     # JS for integrating with generative AI features (if applicable)
+│   │   └── jquery-3.7.1.min.js  # jQuery for content script functionality
+│   └── importmap.json           # Import map for the JS modules
+├── .gitignore                   # Git ignore file to exclude unwanted files from version control
+├── index.html                   # Popup HTML page for the extension
+├── manifest.json                # Chrome Extension manifest file that defines the extension's properties and permissions
+└── README.md                    # Documentation for installation, usage, and troubleshooting
+
+```
+
+---
+
+## Customization
+
+You can customize the extension by:
+- Modifying `content.js` to target different forms or websites.
+- Updating `background.js` to handle additional actions or data processing.
+- Editing `manifest.json` to change permissions or extend functionality.
+
+---
+
+This `README.md` file is designed to provide detailed instructions on setting up, using, and troubleshooting the **AutoFormFiller** Chrome extension.
+
