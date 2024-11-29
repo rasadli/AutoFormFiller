@@ -40,7 +40,6 @@ const fieldMapping = {
   "company-name": ["company-name", "company", "workplace", "company_experience"]
 };
 
-
 const removedFields = [];
 const jobApplicationForm = document.getElementById('job-application-form');
 const removedFieldsSelect = document.getElementById('removed-fields');
@@ -86,8 +85,6 @@ function renderField(field) {
   jobApplicationForm.appendChild(formGroup);
 }
 
-
-
 // Function to load profiles from Chrome Storage
 function loadProfilesFromStorage() {
   chrome.storage.local.get("profiles", (result) => {
@@ -116,6 +113,7 @@ function populateProfileSelect() {
 
 // Function to load profile data into form fields
 function loadProfileData(profileData) {
+  clearForm()
   for (const key in profileData) {
     const input = document.querySelector(`[name="${key}"]`);
     if (input) {
@@ -261,12 +259,24 @@ function autoFillForm() {
   });
 }
 
+function clearForm() {
+  // Get all input elements in the form
+  const inputs = document.querySelectorAll('form input, form select, form textarea');
+
+  // Loop through each input and clear its value
+  inputs.forEach(input => {
+    if (input.type === 'checkbox' || input.type === 'radio') {
+      input.checked = false; // For checkboxes and radio buttons
+    } else {
+      input.value = ''; // Clear text, select, and textarea fields
+    }
+  });
+}
 
 // Generate Cover Letter 
 async function runAI() {
   // Disable the button to prevent multiple clicks
   const generateButton = document.getElementById('generate-cover-letter-btn');
-  generateButton.disabled = true;
 
   document.getElementById('generate-cover-letter-btn')
   const genAI = new window.GoogleGenerativeAI(
@@ -355,7 +365,8 @@ Data will be used:
   for (let attempt = 1; attempt <= retries; attempt++) {
     try {
       console.log(`Attempt ${attempt}...`);
-      const result = await model.generateContent(prompt); 
+      const result = await model.generateContent(prompt);
+      generateButton.disabled = true;
       console.log("Generated Response:", result.response.text());
       document.getElementById("cover-letter-output").value =
         result.response.text();
@@ -454,7 +465,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Function to populate all fields based on the received JSON data
   function populateFields(data) {
-
+    clearForm()
     // Mapping JSON data to the default fields
     populateField('first-name', data.name || '');
     populateField('last-name', data.surname || '');
@@ -554,12 +565,12 @@ $('#export-btn').click(function () {
 });
 
 // Import function
-// Import function
 $('#import-btn').click(function () {
   $('#file-input').trigger('click');  // Trigger file input click
 });
 
 function populateFormFields(data) {
+  clearForm()
   defaultFields.forEach(field => {
     const element = document.querySelector(` [name="${field.id}"]`);
 
@@ -581,7 +592,6 @@ function populateFormFields(data) {
   });
 }
 
-// Call the function to populate the form fields
 
 // Handle file input change (when file is selected)
 $('#file-input').change(function (event) {

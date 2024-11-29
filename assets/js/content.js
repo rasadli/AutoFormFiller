@@ -30,7 +30,7 @@ function fillWebsiteForm(profileData, fieldMapping) {
     if (valueToSet !== null && valueToSet !== undefined) {
       if (input.tagName === "SELECT") {
         input.value = valueToSet;
-        input.dispatchEvent(new Event("change"));
+        input.dispatchEvent(new Event("change", { bubbles: true }));
       } else {
         input.value = valueToSet;
         input.dispatchEvent(new Event("input", { bubbles: true }));
@@ -46,9 +46,7 @@ function fillWebsiteForm(profileData, fieldMapping) {
 
 
 // Save draft
-
 if (document.querySelector('form') != null) {
-  console.log('draftButton')
   // Create the button
   const saveDraftButton = document.createElement("button");
   saveDraftButton.textContent = "Save As Draft";
@@ -86,6 +84,7 @@ if (document.querySelector('form') != null) {
     });
 
     console.log("Extracted Form Data:", currentFormData);
+    alert("Data saved to storage successfully!");
 
     // Serialize data and save to localStorage
     localStorage.setItem(`${currentPageURL}`, JSON.stringify(currentFormData));
@@ -123,15 +122,17 @@ if (savedData) {
         if (formElement) {
           if (formElement.type === 'radio' || formElement.type === 'checkbox') {
             formElement.checked = (formElement.value === formData[key]);
+            formElement.dispatchEvent(new Event("change", { bubbles: true }));
           } else {
             formElement.value = formData[key];
+            formElement.dispatchEvent(new Event("input", { bubbles: true }));
+            formElement.dispatchEvent(new Event("change", { bubbles: true }));
           }
         }
       }
     }
   })
 }
-
 
 function formatDate(date) {
   const day = String(date.getDate()).padStart(2, '0');   // Ensure two digits
