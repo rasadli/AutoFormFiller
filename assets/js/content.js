@@ -160,7 +160,7 @@ if (applyBtn) {
       url: url,
       date: date,
       status: "Pending.."
-    };
+    }; 
 
     console.log(jobData);
 

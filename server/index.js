@@ -134,7 +134,7 @@ app.get("/scrape", async (req, res) => {
         console.error("Scraping failed:", error);
         res.status(500).json({ success: false, error: "Failed to scrape the profile." });
     }
-});
+}); 
 
 // Start the server
 app.listen(PORT, () => {

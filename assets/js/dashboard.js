@@ -70,7 +70,7 @@ function updateJobStatus(index) {
                 alert('Job status updated successfully!');
                 location.reload();
             });
-        });
+        }); 
     }
 }
 

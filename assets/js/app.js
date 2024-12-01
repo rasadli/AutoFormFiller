@@ -581,7 +581,7 @@ function populateFormFields(data) {
         Array.from(selectElement.options).forEach(option => {
           if (option.value === data[field.id]) {
             option.selected = true;
-          }
+          } 
         });
       } else {
         element.value = data[field.id] || '';

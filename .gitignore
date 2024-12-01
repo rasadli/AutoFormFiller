@@ -3,4 +3,4 @@ node_modules/
 
 # IDE/Editor settings
 .vscode/
-.idea/
+.idea/ 
