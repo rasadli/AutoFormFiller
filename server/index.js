@@ -1,3 +1,19 @@
+/*
+===========================================================
+
+Sources and Citations:
+
+1. Google Developers. (n.d.). Gemini AI API [Online documentation]. https://ai.google.dev/
+2. Stack Overflow. (n.d.). Stack Overflow [Forum]. https://stackoverflow.com/
+3. OpenAI. (n.d.). ChatGPT [Large language model]. https://chatgpt.com/
+
+ChatGPT-Generated Snippets:
+- https://chatgpt.com/share/674c29ab-e4dc-8003-a123-e1549c3427c1
+- https://chatgpt.com/share/674c2932-1f80-8003-bddc-84f404776f6a
+- https://chatgpt.com/share/674c2a21-1cc8-8003-9479-c79269cb24cf
+===========================================================
+*/
+
 const express = require("express");
 const cors = require("cors");
 const puppeteer = require("puppeteer-extra");

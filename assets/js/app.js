@@ -1,3 +1,21 @@
+/*
+===========================================================
+
+Sources and Citations:
+1. Train To Code. (2023, Aug 18). Full Tutorial | Building a Chrome Extension in Typescript and Vite [Video]. https://www.youtube.com/watch?v=GGi7Brsf7js
+2. Chrome Developers. (n.d.). Extensions documentation [Online documentation]. https://developer.chrome.com/docs/extensions
+3. freeCodeCamp.org (2022, May 27). Build a Chrome Extension – Course for Beginners [Video]. https://youtu.be/0n809nd4Zu4?si=bbF3gS95lsXbVtLA
+4. Google Developers. (n.d.). Gemini AI API [Online documentation]. https://ai.google.dev/
+5. Stack Overflow. (n.d.). Stack Overflow [Forum]. https://stackoverflow.com/
+6. Google Generative AI Library. (n.d.). Google Generative AI via JSDelivr CDN [Online package]. https://cdn.jsdelivr.net/npm/@google/generative-ai/+esm
+
+ChatGPT-Generated Snippets:
+- https://chatgpt.com/share/674c29ab-e4dc-8003-a123-e1549c3427c1
+- https://chatgpt.com/share/674c2932-1f80-8003-bddc-84f404776f6a
+- https://chatgpt.com/share/674c2a21-1cc8-8003-9479-c79269cb24cf
+===========================================================
+*/
+
 const defaultFields = [
   { label: "First Name", type: "text", id: "first-name" },
   { label: "Last Name", type: "text", id: "last-name" },
@@ -605,8 +623,6 @@ $('#file-input').change(function (event) {
         const importedData = JSON.parse(e.target.result);
         populateFormFields(importedData);
 
-        // Here you can update the profileData with the imported JSON
-        // profileData = { ...profileData, ...importedData };
         console.log('Imported Data:', importedData);
         alert('Profile data imported successfully!');
       } catch (err) {

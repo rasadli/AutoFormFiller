@@ -1,3 +1,24 @@
+/*
+===========================================================
+
+Sources and Citations:
+1. Train To Code. (2023, Aug 18). Full Tutorial | Building a Chrome Extension in Typescript and Vite [Video]. https://www.youtube.com/watch?v=GGi7Brsf7js
+2. Chrome Developers. (n.d.). Extensions documentation [Online documentation]. https://developer.chrome.com/docs/extensions
+3. freeCodeCamp.org (2022, May 27). Build a Chrome Extension – Course for Beginners [Video]. https://youtu.be/0n809nd4Zu4?si=bbF3gS95lsXbVtLA
+4. Google Developers. (n.d.). Gemini AI API [Online documentation]. https://ai.google.dev/
+5. Stack Overflow. (n.d.). Stack Overflow [Forum]. https://stackoverflow.com/
+6. OpenAI. (n.d.). ChatGPT [Large language model]. https://chatgpt.com/
+7. Fillout. (n.d.). Job Application Form Template [Template]. https://www.fillout.com/templates/job-application
+8. Jotform. (n.d.). Job Application Form [Template]. https://www.jotform.com/build/243202776174456?s=templates#preview
+
+ChatGPT-Generated Snippets:
+- https://chatgpt.com/share/674c29ab-e4dc-8003-a123-e1549c3427c1
+- https://chatgpt.com/share/674c2932-1f80-8003-bddc-84f404776f6a
+- https://chatgpt.com/share/674c2a21-1cc8-8003-9479-c79269cb24cf
+===========================================================
+*/
+
+
 console.log("Content script is running!");
 
 // Listen for messages from the popup or background script
