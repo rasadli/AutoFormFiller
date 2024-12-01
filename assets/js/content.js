@@ -162,17 +162,13 @@ if (applyBtn) {
       status: "Pending.."
     };
 
-    // Log the new job data to the console
     console.log(jobData);
 
-    // Retrieve existing job data from local storage
     chrome.storage.local.get(['jobs'], function (result) {
       let jobs = result.jobs || []; // Default to an empty array if no jobs exist
 
-      // Add the new job to the jobs array
       jobs.push(jobData);
 
-      // Save the updated jobs array back to local storage
       chrome.storage.local.set({ jobs: jobs }, function () {
         console.log("Job data saved to local storage");
       });

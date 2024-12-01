@@ -8,9 +8,8 @@ puppeteer.use(StealthPlugin());
 const app = express();
 const PORT = 3000;
 
-// CORS configuration
 const corsOptions = {
-    origin: "*", // Allow all origins (use specific origins for production)
+    origin: "*", 
     methods: ["GET", "POST"],
     allowedHeaders: ["Content-Type"]
 };
@@ -32,7 +31,6 @@ app.get("/scrape", async (req, res) => {
         });
         const page = await browser.newPage();
 
-        // Set user agent to avoid detection
         await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36");
 
         await page.goto(profileUrl, { waitUntil: "networkidle2" });
@@ -78,12 +76,10 @@ app.get("/scrape", async (req, res) => {
             });
 
             const experiences = Array.from(document.querySelectorAll('.experience ul.experience__list > li')).map(experience => {
-                // Check if the experience has grouped positions (experience-group)
                 if (experience.classList.contains('experience-group')) {
                     const companyName = experience.querySelector('.experience-group-header h4') ? experience.querySelector('.experience-group-header h4').textContent.trim() : '';
                     const companyDuration = experience.querySelector('.experience-group-header p span.date-range span') ? experience.querySelector('.experience-group-header p span.date-range span').textContent.trim() : '';
 
-                    // Loop through the positions inside the experience group
                     const positions = Array.from(experience.querySelectorAll('.experience-group__positions li')).map(position => {
                         const positionName = position.querySelector('h3 span.experience-item__title') ? position.querySelector('h3 span.experience-item__title').textContent.trim() : '';
                         const positionStartTime = position.querySelector('p.experience-item__meta-item:first-child span.date-range time:first-child') ? position.querySelector('p.experience-item__meta-item:first-child span.date-range time:first-child').textContent.trim() : '';
@@ -91,7 +87,6 @@ app.get("/scrape", async (req, res) => {
                         const positionTimeDuration = position.querySelector('p.experience-item__meta-item:first-child span span') ? position.querySelector('p.experience-item__meta-item:first-child span span').textContent.trim() : '';
                         const positionLocation = position.querySelector('p.experience-item__meta-item:last-child') ? position.querySelector('p.experience-item__meta-item:last-child').textContent.trim() : '';
 
-                        // Returning the position data
                         return {
                             positionName,
                             positionStartTime,
@@ -101,14 +96,12 @@ app.get("/scrape", async (req, res) => {
                         };
                     });
 
-                    // Returning the company data along with positions
                     return {
                         companyName,
                         companyDuration,
                         positions
                     };
                 } else {
-                    // Handling the case where it's a single experience without a group
                     const positionName = experience.querySelector('h3 > span.experience-item__title') ? experience.querySelector('h3 > span.experience-item__title').textContent.trim() : '';
                     const companyName = experience.querySelector('h4 span.experience-item__subtitle') ? experience.querySelector('h4 span.experience-item__subtitle').textContent.trim() : '';
                     const positionStartTime = experience.querySelector('p.experience-item__meta-item:first-child span.date-range time:first-child') ? experience.querySelector('p.experience-item__meta-item:first-child span.date-range time:first-child').textContent.trim() : '';
@@ -116,7 +109,6 @@ app.get("/scrape", async (req, res) => {
                     const positionTimeDuration = experience.querySelector('p.experience-item__meta-item:first-child span span') ? experience.querySelector('p.experience-item__meta-item:first-child span span').textContent.trim() : '';
                     const positionLocation = experience.querySelector('p.experience-item__meta-item:last-child') ? experience.querySelector('p.experience-item__meta-item:last-child').textContent.trim() : '';
 
-                    // Returning the single position data within the same structure
                     return {
                         companyName,
                         positionTimeDuration,

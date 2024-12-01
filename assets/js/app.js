@@ -75,7 +75,6 @@ function renderField(field) {
   input.className = 'form-control';
   input.name = field.id;
 
-  // Append label, input to the input group
   inputGroupDiv.appendChild(input);
 
   formGroup.appendChild(label);
@@ -590,7 +589,6 @@ function populateFormFields(data) {
     }
   });
 }
-
 
 // Handle file input change (when file is selected)
 $('#file-input').change(function (event) {
