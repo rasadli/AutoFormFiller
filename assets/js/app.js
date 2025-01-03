@@ -296,7 +296,7 @@ async function runAI() {
 
   document.getElementById('generate-cover-letter-btn')
   const genAI = new window.GoogleGenerativeAI(
-    "AIzaSyAyHdRl-zfLxZjhjnSsq7p9TnEbPF_obdE"
+    "<YOUR_API_KEY>" // Replace <YOUR_API_KEY> with the API key obtained from https://ai.google.dev/gemini-api/docs/api-key
   );
   const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
