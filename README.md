@@ -1,89 +1,86 @@
- 
 ---
 
-# **AutoFormFiller Chrome Extension**
+# AutoFormFiller Chrome Extension
 
-## **Overview**
+## Overview
+AutoFormFiller is a Chrome extension designed to automate form-filling tasks on supported websites, such as LinkedIn profiles and job application forms. The extension scrapes relevant data from the user's LinkedIn profile, fills out forms automatically, and allows the user to save, update, and manage profiles. This tool helps streamline the job application process and ensures consistent, accurate data entry.
 
-**AutoFormFiller** is a Chrome extension designed to automate form-filling tasks on supported websites, such as LinkedIn profiles and job application forms. The extension scrapes relevant data from the user's LinkedIn profile, fills out forms automatically, and allows the user to save, update, and manage profiles. This tool helps streamline the job application process and ensures consistent, accurate data entry.
+## Key Features
+- **Create, Update, Delete Profiles:** Users can create new profiles, update existing profiles, and delete profiles completely.
+- **Auto-Fill Forms:** Fill out forms automatically by selecting a profile from the dropdown list.
+- **Profile Information Management:** Each profile can store personal data, which can be updated or removed at any time.
+- **Save Data as Drafts:** Form data, whether filled by the user or the extension, can be saved as drafts for future use.
+- **Import/Export Profiles:** Users can import or export profile data, allowing easy sharing and backup of form-filling data.
 
----
+## Installation
+1. **Clone or Download the Repository**  
+   Download the repository or extract the provided `AutoFormFiller.zip` file to a directory on your local machine.
 
-### Key Features
+2. **Install Node.js Dependencies**  
+   Navigate to the server folder, which contains the backend files.  
+   ```
+   cd /path/to/your/server
+   ```  
+   Run the following command to install the required Node.js dependencies:  
+   ```
+   npm install
+   ```
 
-- **Create, Update, Delete Profiles**: Users can create new profiles, update existing profiles, and delete profiles completely.
-- **Auto-Fill Forms**: Fill out forms automatically by selecting a profile from the dropdown list.
-- **Profile Information Management**: Each profile can store personal data, which can be updated or removed at any time.
-- **Save Data as Drafts**: Form data, whether filled by the user or the extension, can be saved as drafts for future use.
-- **Import and Export Profiles**: Users can import or export profile data, allowing easy sharing and backup of form-filling data.
+3. **Start the Node.js Server**  
+   To start the backend server, run:  
+   ```
+   node index.js
+   ```  
+   **Note:** This server must be running for the extension to fetch and process data.
 
---- 
+4. **Load the Extension in Chrome**  
+   Open Google Chrome and navigate to `chrome://extensions/`.  
+   Enable Developer Mode using the toggle switch in the top-right corner.  
+   Click **Load unpacked** and select the directory containing the extracted files of the AutoFormFiller extension.  
+   The extension will be loaded and activated.
 
-## **Installation**
+## Usage
+### Scrape LinkedIn Profile Data:
+1. Open the LinkedIn profile page of the user you want to scrape.
+2. Provide the LinkedIn page URL to the extension.
+3. The extension will scrape the profile data (name, experience, education, etc.) and store it.
 
-### **1. Clone or Download the Repository**
-- Download the repository or extract the provided `AutoFormFiller.zip` file to a directory on your local machine.
+### Create, Update, or Select a Profile:
+1. Users can create new profiles by adding relevant information.
+2. Existing profiles can be updated with new or modified data, allowing for profile adjustments based on changing information.
+3. Users can select from previously saved profiles to fill out forms automatically.
 
-### **2. Install Node.js Dependencies**
-- Navigate to the `server` folder, which contains the backend files.
-  ```bash
-  cd /path/to/your/server
-  ```
-- Run the following command to install the required Node.js dependencies:
-  ```bash
-  npm install
-  ```
+### Filling Forms Automatically:
+1. Open any supported web page (e.g., job application forms).
+2. The extension will automatically fill in the form fields based on the selected profile's data.
 
-### **3. Start the Node.js Server**
-- To start the backend server, run:
-  ```bash
-  node index.js
-  ```
-  > Note: This server must be running for the extension to fetch and process data.
+### Save Forms as Drafts:
+1. Data filled in forms by either the extension or the user can be saved as a draft for future use.
+2. Drafts are saved within the extension and can be accessed later.
 
-### **4. Load the Extension in Chrome**
-1. Open Google Chrome and navigate to `chrome://extensions/`.
-2. Enable **Developer Mode** using the toggle switch in the top-right corner.
-3. Click **Load unpacked** and select the directory containing the extracted files of the `AutoFormFiller` extension.
-4. The extension will be loaded and activated.
+### Profile Import/Export:
+1. Profiles can be imported and exported using buttons within the extension, allowing users to back up their profile data or transfer it to another device.
 
----
-
-## **Usage**
-
-1. **Scrape LinkedIn Profile Data**:
-   - Open the LinkedIn profile page of the user you want to scrape.
-   - Provide the LinkedIn page URL to the extension.
-   - The extension will scrape the profile data (name, experience, education, etc.) and store it.
-
-2. **Create, Update, or Select a Profile**:
-   - Users can create new profiles by adding relevant information.
-   - Existing profiles can be updated with new or modified data, allowing for profile adjustments based on changing information.
-   - Users can select from previously saved profiles to fill out forms automatically.
-
-3. **Filling Forms Automatically**:
-   - Open any supported web page (e.g., job application forms).
-   - The extension will automatically fill in the form fields based on the selected profile's data.
-
-4. **Save Forms as Drafts**:
-   - Data filled in forms by either the extension or the user can be saved as a draft for future use. Drafts are saved within the extension and can be accessed later.
-
-5. **Profile Import/Export**:
-   - Profiles can be imported and exported using buttons within the extension, allowing users to back up their profile data or transfer it to another device.
-
----
-
-## **Customization**
-
+## Customization
 You can customize the extension by:
 - Modifying `content.js` to target different forms or websites.
 - Updating `background.js` to handle additional actions or data processing.
 - Editing `manifest.json` to change permissions or extend functionality.
 
----
+## API Key for Gemini Integration
 
-## **File Structure**
+Due to the limitations of the Gemini API, **users must create and use their own API key**. Here’s how you can do it:
 
+1. Visit the [Gemini API documentation](https://ai.google.dev/gemini-api/docs/api-key).
+2. Follow the instructions to generate your API key.
+3. Replace the placeholder in the code (`<YOUR_API_KEY>`) with your own API key in the `app.js` file:
+   ```javascript
+   const genAI = new window.GoogleGenerativeAI(
+     "<YOUR_API_KEY>" // Replace <YOUR_API_KEY> with the API key obtained from https://ai.google.dev/gemini-api/docs/api-key
+   );
+   ```
+
+## File Structure
 ```
 AutoFormFiller/
 ├── assets/
@@ -113,5 +110,3 @@ AutoFormFiller/
 ```
 
 ---
-
-This `README.md` file provides detailed instructions on setting up, using, and troubleshooting the **AutoFormFiller** Chrome extension.
